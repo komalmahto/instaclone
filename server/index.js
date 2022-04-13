@@ -4,13 +4,7 @@ const app = express()
 const cors = require("cors")
 app.use(cors())
 app.use(express.json())
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "ig_clone",
-  port: "3306",
-})
+const db = mysql.createConnection({})
 app.post("/create", (req, res) => {
   const username = req.body.username
   const created_at = req.body.created_at
