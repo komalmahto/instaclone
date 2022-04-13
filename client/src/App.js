@@ -1,23 +1,36 @@
-import logo from "./logo.svg"
 import "./App.css"
-
+import { useState } from "react"
+import axios from "axios"
 function App() {
+  const [x, setx] = useState()
+  const [y, sety] = useState()
+  const display = () => {
+    axios
+      .post("http://localhost:3001/create", {
+        username: "komalmahto",
+        created_at: "13apr,2022",
+      })
+      .then(() => {
+        console.log("success")
+      })
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <label>x</label>
+      <input
+        type="text"
+        onChange={(e) => {
+          setx(e.target.value)
+        }}
+      ></input>
+      <label>y</label>
+      <input
+        type="text"
+        onChange={(e) => {
+          sety(e.target.value)
+        }}
+      ></input>
+      <button onClick={display}>set</button>
     </div>
   )
 }
