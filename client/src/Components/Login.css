@@ -1,0 +1,236 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  html {
+    font-size: 62.5%;
+  }
+  
+  body {
+    background-color: #d6d6d610;
+    font-family: 'Roboto';
+    color: #333;
+  }
+  
+  .login-page {
+    width: 42rem;
+    padding: 2rem;
+    margin: auto;
+  }
+  
+  .login-container {
+    position: relative;
+    font-size: 1.8rem;
+    padding: 0 4rem 3rem;
+    max-width: 48rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: solid 1px #ddd;
+    background-color: #fff;
+  }
+  
+  /* LOGIN TITLE */
+  .instagram-title {
+    display: block;
+    height: 10rem;
+    width: 22rem;
+    margin: auto;
+    margin-bottom: 4rem;
+  }
+  
+  /* USERNAME AND PASSWORD SECTION */
+  
+  .username-info input,
+  .password-info input {
+    display: block;
+    font-size: 1.4rem;
+    color: #333;
+    padding: 1rem 2rem 1rem 0.5rem;
+    margin: 0 5rem 1.5rem 0;
+    width: 100%;
+    background-color: #d6d6d610;
+    border: solid 1px #aaa;
+    border-radius: 5px;
+  }
+  
+  /* LOGIN BUTTON */
+  
+  .login-btn {
+    font-weight: 600;
+    font-size: 1.6rem;
+    text-align: center;
+    border: solid 1px #aaa;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin-bottom: 2rem;
+    background-color: #228be6;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .login-btn:hover {
+    background-color: #4ea2eb;
+  }
+  
+  /* OR DIVIDER */
+  .or-divider {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+    /* text-align: center; */
+    color: #a7a7a7;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+  
+  .or-divider:before,
+  .or-divider:after {
+    background-color: #a7a7a7;
+    content: '';
+    display: inline-block;
+    height: 0.12rem;
+    position: relative;
+    vertical-align: middle;
+    width: 50%;
+  }
+  
+  .or-divider:before {
+    right: 2rem;
+    margin-left: 7%;
+  }
+  
+  .or-divider:after {
+    left: 2rem;
+    margin-right: 7%;
+  }
+  
+  /* LOG IN WITH FACEBOOK */
+  .facebook-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .facebook-icon {
+    position: relative;
+    height: 2.5rem;
+    width: 2.5rem;
+    right: 0.5rem;
+  }
+  
+  .login-with-fb {
+    text-decoration: none;
+    color: #3e607d;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  
+  /* FORGOT PASS WORD */
+  .forgot-text {
+    display: block;
+    font-size: 1.4rem;
+    text-align: center;
+    color: #0e385c;
+    text-decoration: none;
+  }
+  
+  .forgot-text:hover {
+    text-decoration: underline;
+  }
+  
+  /* SIGN UP */
+  .sign-up-container {
+    background-color: #fff;
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: center;
+    border: solid 1px #ddd;
+    padding: 2rem;
+  }
+  
+  .sign-up-text {
+    text-decoration: none;
+    color: #228be6;
+    font-weight: 500;
+  }
+  
+  .sign-up-text:hover {
+    text-decoration: underline;
+  }
+  
+  /* CTA SECTION */
+  
+  .cta-app {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .cta-container {
+    max-width: 40rem;
+    margin: auto auto 4rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+  }
+  
+  .apple-app-store,
+  .google-play {
+    width: auto;
+    height: 4.5rem;
+    cursor: pointer;
+  }
+  
+  .apple-app-store {
+    padding-right: 1rem;
+  }
+  
+  /* FOOTER SECTION */
+  
+  .links {
+    margin-bottom: 2rem;
+  }
+  
+  .nav-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    list-style: none;
+    padding: 0 2rem 0 2rem;
+  }
+  
+  .footer-link {
+    color: #a7a7a7;
+    padding: 1rem;
+    font-size: 1.4rem;
+    text-decoration: none;
+  }
+  
+  /* Copyright section */
+  
+  .copyright-section {
+    font-size: 1.4rem;
+    color: #a7a7a7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 6rem;
+  }
+  
+  .copyright-section select {
+    font-size: 1.4rem;
+    color: #a7a7a7;
+    border: none;
+    background-color: #d6d6d610;
+  }
+  

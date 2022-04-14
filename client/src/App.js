@@ -2,6 +2,8 @@ import "./App.css"
 import { useState } from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import axios from "axios"
+import Login from "./Components/Login.jsx"
+import Signup from "./Components/Signup.jsx"
 import Home from "./Components/Home.jsx"
 function App() {
   const [x, setx] = useState()
@@ -20,7 +22,9 @@ function App() {
     <div>
       <Router>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/home" component={Home} />
           {/* <Route exact path="/register" component={Auth(RegisterPage, false)} />
         <Route exact path="/home" component={Auth(Container, true)} />
         <Route exact path="/chat" component={Auth(ChatPage, true)} />
