@@ -21,8 +21,12 @@ function Header() {
     formData.append("upload_preset", "tgkyyzcb")
     axios
       .post("https://api.cloudinary.com/v1_1/digvkvltj/upload", formData)
-      .then((response) => {})
+      .then((response) => {
+        let chatMessage = response.data.secure_url
+        console.log(chatMessage)
+      })
   }
+
   return (
     <div>
       {" "}

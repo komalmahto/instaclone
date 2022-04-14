@@ -5,10 +5,14 @@ function Signup() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const register = () => {
-    axios.post("http://localhost:3001/signup", {
-      username: username,
-      password: password,
-    })
+    axios
+      .post("http://localhost:3001/signup", {
+        username: username,
+        password: password,
+      })
+      .then((response) => {
+        console.log(response)
+      })
   }
   return (
     <>

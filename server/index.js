@@ -12,11 +12,52 @@ const db = mysql.createConnection({
   port: 3306,
   insecureAuth: true,
 })
-
-app.post("/login", (req, res) => {
+app.post("/signup", (req, res) => {
   const username = req.body.username
   const password = req.body.password
-  console.log(username + password)
+
+  db.query(
+    "INSERT INTO users (username,password) values(?,?)",
+    [username, password],
+    (err, result) => {
+      if (err) {
+        console.log(err)
+      } else {
+        res.send(result)
+      }
+    }
+  )
+})
+app.get("/login/:name/:pass", (req, res) => {
+  const username = req.params.name
+  const password = req.params.pass
+  console.log(name)
+  db.query("select * from users where username=?", username, (err, result) => {
+    console.log(result)
+    if (err) {
+      console.log(err)
+    } else {
+      if (result.length > 0) {
+        if (password === result[0].password) {
+          res.json({
+            loggedin: true,
+            name: username,
+            image: result[0].profile,
+            message: "logged in successfully",
+          })
+        } else {
+          res.json({
+            loggedin: false,
+            message: "incorrect password",
+          })
+        }
+      } else {
+        res.json({
+          message: "user doesn't exist",
+        })
+      }
+    }
+  })
 })
 app.post("/signup", (req, res) => {
   const username = req.body.username

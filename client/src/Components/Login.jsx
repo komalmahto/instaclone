@@ -1,13 +1,22 @@
 import React, { useState } from "react"
 import "./Login.css"
+import { useHistory } from "react-router-dom"
 import axios from "axios"
 function Login() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const history = useHistory()
   const verify = () => {
-    axios.post("http://localhost:3001/login", {
-      username: username,
-      password: password,
+    axios.get(`/user/login/${username}/${password}`).then((response) => {
+      console.log(response)
+      if (response.data.loggedin === true) {
+        localStorage.setItem("loggedin", true)
+        localStorage.setItem("name", { username })
+        alert(response.data.message)
+        history.push("/home")
+      } else {
+        console.log(response.data.message)
+      }
     })
   }
   return (
