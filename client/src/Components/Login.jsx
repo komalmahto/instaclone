@@ -6,18 +6,27 @@ function Login() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const history = useHistory()
-  const verify = () => {
-    axios.get(`/user/login/${username}/${password}`).then((response) => {
-      console.log(response)
-      if (response.data.loggedin === true) {
-        localStorage.setItem("loggedin", true)
-        localStorage.setItem("name", { username })
-        alert(response.data.message)
-        history.push("/home")
-      } else {
-        console.log(response.data.message)
-      }
-    })
+  const verrify = () => {
+    console.log("ayaaa")
+    const name = username
+    const pass = password
+    console.log(name)
+    axios
+      .get(`http://localhost:3001/login/${name}/${pass}`)
+      .then((response) => {
+        if (response.data.loggedin === true) {
+          localStorage.setItem("loggedin", true)
+          localStorage.setItem(
+            "userData",
+            JSON.stringify(response.data.userData)
+          )
+          alert(response.data.message)
+          history.push("/profile")
+          console.log(response)
+        } else {
+          console.log(response.data.message)
+        }
+      })
   }
   return (
     <>
@@ -34,10 +43,8 @@ function Login() {
             <div class="username-info">
               <label for="username">
                 <input
-                  id="username"
                   type="text"
                   placeholder="Phone number, username, or email"
-                  required
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </label>
@@ -53,7 +60,7 @@ function Login() {
                 />
               </label>
             </div>
-            <button onClick={verify} class="login-btn">
+            <button onClick={verrify} class="login-btn">
               Log In
             </button>
 

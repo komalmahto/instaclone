@@ -5,17 +5,16 @@ const cors = require("cors")
 app.use(cors())
 app.use(express.json())
 const db = mysql.createConnection({
-  host: "sql6.freemysqlhosting.net",
-  user: "sql6485624",
-  password: "iDEhdb4ZRQ",
-  database: "sql6485624",
-  port: 3306,
+  user: "root",
+  host: "localhost",
+  password: "717368.km",
+  database: "ig_clone",
   insecureAuth: true,
 })
 app.post("/signup", (req, res) => {
   const username = req.body.username
   const password = req.body.password
-
+  console.log(username, password)
   db.query(
     "INSERT INTO users (username,password) values(?,?)",
     [username, password],
@@ -31,7 +30,7 @@ app.post("/signup", (req, res) => {
 app.get("/login/:name/:pass", (req, res) => {
   const username = req.params.name
   const password = req.params.pass
-  console.log(name)
+  console.log(username, password)
   db.query("select * from users where username=?", username, (err, result) => {
     console.log(result)
     if (err) {
@@ -39,10 +38,12 @@ app.get("/login/:name/:pass", (req, res) => {
     } else {
       if (result.length > 0) {
         if (password === result[0].password) {
+          console.log("my")
+          var ff = []
+          ff.push(result[0])
           res.json({
             loggedin: true,
-            name: username,
-            image: result[0].profile,
+            userData: ff,
             message: "logged in successfully",
           })
         } else {
@@ -72,13 +73,13 @@ app.post("/signup", (req, res) => {
     }
   )
 })
-app.post("/create", (req, res) => {
-  const username = req.body.username
-  const created_at = req.body.created_at
-  console.log(username, created_at)
+app.post("/post", (req, res) => {
+  const image_url = req.body.img_url
+  const user_id = req.body.user_id
+  console.log(req.body)
   db.query(
-    "INSERT INTO users(username,created_at) VALUES(?,?)",
-    [username, created_at],
+    "INSERT INTO photos(image_url,user_id) VALUES(?,?)",
+    [image_url, user_id],
     (err, result) => {
       if (err) console.log(err)
       else res.send("values inserted")
