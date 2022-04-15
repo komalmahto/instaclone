@@ -34,7 +34,7 @@ function App() {
         <Route exact path="/notes" component={Auth(Notes, true)} /> */}
         </Switch>
       </Router>
-      <button onClick={display}>set</button>
+      {/* <button onClick={display}>set</button>
       <div className="App">
         <label>x</label>
         <input
@@ -50,7 +50,7 @@ function App() {
             sety(e.target.value)
           }}
         ></input>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -163,10 +163,10 @@ function Header() {
           </div>
         </nav>
       </div>
-      <div style={{ width: "100%", height: "200px" }}>
+      {/* <div style={{ width: "100%", height: "200px" }}>
         {" "}
         <Image cloudName="digvkvltj" publicId={img} />
-      </div>
+      </div> */}
     </div>
   )
 }

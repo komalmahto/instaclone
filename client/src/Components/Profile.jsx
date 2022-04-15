@@ -1,15 +1,21 @@
+import axios from "axios"
 import React, { useState, useEffect } from "react"
 import Header from "./Header"
 import "./Home.scss"
-
+import { Image } from "cloudinary-react"
 const Profile = () => {
-  //   const [posts, setPosts] = useState([])
+  const res = []
+  const [post, setPosts] = useState([])
+  useEffect(() => {
+    const id = JSON.parse(localStorage.getItem("userData"))[0].id
+    // console.log(id)
+    axios.get(`http://localhost:3001/getposts/${id}`).then((response) => {
+      //console.log(response.data)
 
-  //   useEffect(() => {
-  //     async function fetchData() {
-  //       const response = await postService.allPosts()
-  //     }
-  //   }, [])
+      setPosts(response.data.photos)
+      //console.log(res)
+    })
+  })
 
   return (
     <div class="">
@@ -56,69 +62,18 @@ const Profile = () => {
           </div>
 
           <div class="row text-center">
-            <div class="col-4 py-1">
-              <img
-                src="https://loremflickr.com/250/250/dogs/?random=1"
-                class="img-fluid img-thumbnail rounded"
-                alt="Profil Picture"
-              />
-            </div>
-            <div class="col-4 py-1">
-              <img
-                src="https://loremflickr.com/250/250/dogs?random=2"
-                class="img-fluid img-thumbnail rounded"
-                alt="Profil Picture"
-              />
-            </div>
-            <div class="col-4 py-1">
-              <img
-                src="https://loremflickr.com/250/250/dogs?random=3"
-                class="img-fluid img-thumbnail rounded"
-                alt="Profil Picture"
-              />
-            </div>
-            <div class="col-4 py-1">
-              <img
-                src="https://loremflickr.com/250/250/dogs?random=4"
-                class="img-fluid img-thumbnail rounded"
-                alt="Profil Picture"
-              />
-            </div>
-            <div class="col-4 py-1">
-              <img
-                src="https://loremflickr.com/250/250/dogs?random=5"
-                class="img-fluid img-thumbnail rounded"
-                alt="Profil Picture"
-              />
-            </div>
-            <div class="col-4 py-1">
-              <img
-                src="https://loremflickr.com/250/250/dogs?random=6"
-                class="img-fluid img-thumbnail rounded"
-                alt="Profil Picture"
-              />
-            </div>
-            <div class="col-4 py-1">
-              <img
-                src="https://loremflickr.com/250/250/dogs?random=7"
-                class="img-fluid img-thumbnail rounded"
-                alt="Profil Picture"
-              />
-            </div>
-            <div class="col-4 py-1">
-              <img
-                src="https://loremflickr.com/250/250/dogs?random=8"
-                class="img-fluid img-thumbnail rounded"
-                alt="Profil Picture"
-              />
-            </div>
-            <div class="col-4 py-1">
-              <img
-                src="https://loremflickr.com/250/250/dogs?random=9"
-                class="img-fluid img-thumbnail rounded"
-                alt="Profil Picture"
-              />
-            </div>
+            {post.map((item, key) => {
+              return (
+                <div class="col-4 py-1">
+                  <Image
+                    cloudName="digvkvltj"
+                    publicId={item}
+                    class="img-fluid img-thumbnail rounded"
+                    alt="Profil Picture"
+                  />
+                </div>
+              )
+            })}
           </div>
         </section>
       </div>

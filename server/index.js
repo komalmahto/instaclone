@@ -86,6 +86,22 @@ app.post("/post", (req, res) => {
     }
   )
 })
+app.get("/getposts/:id", (req, res) => {
+  const id = req.params.id
+  db.query("select * from photos where user_id=?", id, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      const photos = []
+      result.map((item, val) => {
+        photos.push(item.image_url)
+      })
+      res.json({
+        photos: photos,
+      })
+    }
+  })
+})
 app.listen(3001, () => {
   console.log("started")
 })
