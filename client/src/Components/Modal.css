@@ -1,0 +1,35 @@
+@import url('https://storage.googleapis.com/atoms-sandbox.google.com.a.appspot.com/blokk/blokk.css');
+
+
+
+
+
+
+
+
+
+
+
+
+#comments{
+  background-color:white!important;
+  flex: 1 1 0!important;
+  overflow:scroll!important;
+  padding:20px!important;
+  line-height:30px!important;
+}
+
+.comment{
+  margin-bottom:30px;
+}
+
+.comment:last-child{
+  margin-bottom: 0px;
+}
+
+.comment-info{
+  color:rgba(0, 0, 0, .6);;
+  font-size: 0.8em;
+}
+
+

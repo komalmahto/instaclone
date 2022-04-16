@@ -3,10 +3,15 @@ import React, { useState, useEffect } from "react"
 import Header from "./Header"
 import { Link, NavLink } from "react-router-dom"
 import "./Home.scss"
+import Modal from "./Modal"
 import { Image } from "cloudinary-react"
 const Profile = () => {
   const [post, setPosts] = useState([])
+  const [modal, setModal] = useState(false)
   var userData = JSON.parse(localStorage.getItem("userData"))[0]
+  const click = () => {
+    setModal(true)
+  }
   useEffect(() => {
     const id = userData.id
     axios.get(`http://localhost:3001/getposts/${id}`).then((response) => {
@@ -57,16 +62,28 @@ const Profile = () => {
           <div class="row text-center">
             {post.map((item, key) => {
               return (
-                <Link to={`/${userData?.id}/${item.id}`}>
+                <>
+                  {/* <button onClick={setModal(true)}> */}
                   <div class="col-4 py-1">
                     <Image
                       cloudName="digvkvltj"
                       publicId={item.image_url}
                       class="img-fluid img-thumbnail rounded"
                       alt="Profil Picture"
+                      onClick={() => click()}
                     />
                   </div>
-                </Link>
+                  {/* </button> */}
+                  {modal === true ? (
+                    <Modal
+                      photo={item.image_url}
+                      user={userData.username}
+                      hide={() => setModal(false)}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </>
               )
             })}
           </div>
