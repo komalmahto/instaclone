@@ -5,6 +5,7 @@ import axios from "axios"
 import Login from "./Components/Login.jsx"
 import Signup from "./Components/Signup.jsx"
 import Profile from "./Components/Profile.jsx"
+import Photo from "./Components/Photo.jsx"
 function App() {
   const [x, setx] = useState()
   const [y, sety] = useState()
@@ -25,6 +26,7 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/profile" component={Profile} />
+          <Route exact path="/:id/:photoid" component={Photo} />
           {/* <Route exact path="/register" component={Auth(RegisterPage, false)} />
         <Route exact path="/home" component={Auth(Container, true)} />
         <Route exact path="/chat" component={Auth(ChatPage, true)} />

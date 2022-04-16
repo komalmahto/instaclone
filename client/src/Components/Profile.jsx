@@ -1,19 +1,16 @@
 import axios from "axios"
 import React, { useState, useEffect } from "react"
 import Header from "./Header"
+import { Link, NavLink } from "react-router-dom"
 import "./Home.scss"
 import { Image } from "cloudinary-react"
 const Profile = () => {
-  const res = []
   const [post, setPosts] = useState([])
+  var userData = JSON.parse(localStorage.getItem("userData"))[0]
   useEffect(() => {
-    const id = JSON.parse(localStorage.getItem("userData"))[0].id
-    // console.log(id)
+    const id = userData.id
     axios.get(`http://localhost:3001/getposts/${id}`).then((response) => {
-      //console.log(response.data)
-
       setPosts(response.data.photos)
-      //console.log(res)
     })
   })
 
@@ -47,13 +44,9 @@ const Profile = () => {
             </div>
           </div>
 
-          <div>
-            <h1 class="text-center">John dogs</h1>
-          </div>
-
           <div class="row justify-content-center p-3">
             <div class="col-10">
-              <strong>John Dogs</strong>
+              <strong>{userData?.username}</strong>
               <br />
               Colorado
               <br />
@@ -64,14 +57,16 @@ const Profile = () => {
           <div class="row text-center">
             {post.map((item, key) => {
               return (
-                <div class="col-4 py-1">
-                  <Image
-                    cloudName="digvkvltj"
-                    publicId={item}
-                    class="img-fluid img-thumbnail rounded"
-                    alt="Profil Picture"
-                  />
-                </div>
+                <Link to={`/${userData?.id}/${item.id}`}>
+                  <div class="col-4 py-1">
+                    <Image
+                      cloudName="digvkvltj"
+                      publicId={item.image_url}
+                      class="img-fluid img-thumbnail rounded"
+                      alt="Profil Picture"
+                    />
+                  </div>
+                </Link>
               )
             })}
           </div>

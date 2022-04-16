@@ -92,15 +92,31 @@ app.get("/getposts/:id", (req, res) => {
     if (err) {
       console.log(err)
     } else {
+      //console.log(result)
       const photos = []
       result.map((item, val) => {
-        photos.push(item.image_url)
+        photos.push({ id: item.id, image_url: item.image_url })
       })
+      console.log(photos)
       res.json({
         photos: photos,
       })
     }
   })
+})
+app.get("/getpost/:id/:photoid", (req, res) => {
+  const id = req.params.id
+  const photoid = req.params.photoid
+  //console.log(id, photoid)
+  db.query(
+    "select image_url from photos where user_id=? and id=?",
+    [id, photoid],
+    (err, result) => {
+      res.json({
+        photos: result[0].image_url,
+      })
+    }
+  )
 })
 app.listen(3001, () => {
   console.log("started")
