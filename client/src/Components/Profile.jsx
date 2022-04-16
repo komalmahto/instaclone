@@ -2,7 +2,7 @@ import axios from "axios"
 import React, { useState, useEffect } from "react"
 import Header from "./Header"
 import { Link, NavLink } from "react-router-dom"
-import "./Home.scss"
+import "./Home.css"
 import Modal from "./Modal"
 import { Image } from "cloudinary-react"
 const Profile = () => {
@@ -13,11 +13,14 @@ const Profile = () => {
     setModal(true)
   }
   useEffect(() => {
-    const id = userData.id
-    axios.get(`http://localhost:3001/getposts/${id}`).then((response) => {
-      setPosts(response.data.photos)
-    })
-  })
+    const Fetch = async () => {
+      const id = userData.id
+      const res = await axios.get(`http://localhost:3001/getposts/${id}`)
+      setPosts(res.data.photos)
+      //console.log(res.data.photos)
+    }
+    Fetch()
+  }, [post])
 
   return (
     <div class="">

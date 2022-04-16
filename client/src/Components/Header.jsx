@@ -11,8 +11,8 @@ import { Image } from "cloudinary-react"
 import axios from "axios"
 function Header() {
   const [photo, setPhoto] = useState("")
-  const [img, setImg] = useState()
-  const onDrop = (files) => {
+
+  const onDrop = async (files) => {
     setPhoto(files[0])
     console.log(files)
     let formData = new FormData()
@@ -23,24 +23,21 @@ function Header() {
     formData.append("file", photo)
 
     formData.append("upload_preset", "tgkyyzcb")
+    const response = await axios.post(
+      "https://api.cloudinary.com/v1_1/digvkvltj/upload",
+      formData
+    )
+
+    const loggedin = localStorage.getItem("loggedin")
+    var userData = JSON.parse(localStorage.getItem("userData"))
+    console.log(userData[0].id)
     axios
-      .post("https://api.cloudinary.com/v1_1/digvkvltj/upload", formData)
+      .post("http://localhost:3001/post", {
+        img_url: response.data.secure_url,
+        user_id: userData[0].id,
+      })
       .then((response) => {
-        let chatMessage = response.data.secure_url
-        console.log(chatMessage)
-        setImg(chatMessage)
-        console.log(img)
-        const loggedin = localStorage.getItem("loggedin")
-        var userData = JSON.parse(localStorage.getItem("userData"))
-        console.log(userData[0].id)
-        axios
-          .post("http://localhost:3001/post", {
-            img_url: chatMessage,
-            user_id: userData[0].id,
-          })
-          .then((response) => {
-            console.log(response)
-          })
+        console.log(response)
       })
   }
 

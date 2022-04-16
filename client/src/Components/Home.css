@@ -1,0 +1,105 @@
+.card{ 
+      
+      width:600px;
+      background-color:white;
+      border-radius:10px;
+      
+      margin: 2px auto;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow:scroll;
+    }
+    .profile{
+      
+      width:100;
+      background-color:white;
+      border-radius:10px;
+    }
+    .profile img{
+      height:50px;
+      width:50px;
+      margin:3% 2% 3% 2%;
+      border-radius:50%;
+      object-fit: cover;
+    }
+    .profile h4{
+      position:absolute;
+      font-size:16px;
+      font-weight:strong;
+      padding-left:70px;
+      padding-top:4%;
+    
+    }
+    .profile i{
+      position:absolute;
+      font-weight:strong;
+      right:15px;
+      top:15px;
+            
+    
+    }
+    .profile h5{
+      position:absolute;
+      font-size:13px;
+      font-weight:strong;
+      color:gray;
+      padding-left:70px;
+      padding-top: 8%;
+    }
+    
+    .profile h6{
+      position:absolute;
+      font-size:16px;
+      font-weight:900;
+      color:#0095f6;
+      right:40px;
+      top:3%;
+      
+    }
+    .icons{
+        justify-content: space-between;
+        display:flex;
+    }
+    
+    .about-post{
+      margin-left:15px;
+      
+      padding-right:5px;
+      
+    }
+    .about-post img{
+      top:0px;
+      border-radius:50%;
+      height:30px;
+      width:30px;
+    }
+    
+    #caption{
+      font-size:14px;
+      color:darkblack;
+    }
+    .about-post h5{
+      font-size:13px;
+      color:gray;
+      top:-10px;
+      height:10px;
+    }
+    .about-post input{
+      width:90%;
+      border:0;
+      font-family:"Oxygen";
+      padding-left:10px;
+      margin-top:-10px;
+    }
+    .about-post input::placeholder{
+      padding-top:-10px;
+      font-size:14px;
+      font-weight:bold;
+      margin-top:-10px;
+    }
+    .about-post h6{
+      
+      color:gray;
+    }

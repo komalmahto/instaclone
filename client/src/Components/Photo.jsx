@@ -35,16 +35,6 @@ function Photo() {
           </div>
         </div>
       }
-      {/* <div class="row text-center">
-        <div class="col-4 py-1">
-          <Image
-            cloudName="digvkvltj"
-            publicId={imageurl}
-            class="img-fluid img-thumbnail rounded"
-            alt="Profil Picture"
-          />
-        </div>
-      </div> */}
     </div>
   )
 }

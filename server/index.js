@@ -118,6 +118,33 @@ app.get("/getpost/:id/:photoid", (req, res) => {
     }
   )
 })
+app.get("/getposts", (req, res) => {
+  db.query("select * from photos", (err, result) => {
+    res.json(result)
+  })
+})
+app.post("/likes", (req, res) => {
+  //console.log(req.body)
+
+  db.query(
+    "INSERT INTO likes(user_id,photo_id) VALUES(?,?)",
+    [req.body.id, req.body.photoid],
+    (err, result) => {
+      db.query(
+        "select count(*) as count from likes where photo_id=?",
+        req.body.photoid,
+        (err, result) => {
+          console.log(result)
+          res.send({
+            count: result[0].count,
+          })
+        }
+      )
+      // if (err) console.log(err)
+      // else res.send("values inserted")
+    }
+  )
+})
 app.listen(3001, () => {
   console.log("started")
 })
