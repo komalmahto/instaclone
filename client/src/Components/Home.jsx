@@ -14,9 +14,10 @@ function Home() {
     const Fetch = async () => {
       const res = await axios.get("http://localhost:3001/getposts")
       setPosts(res.data)
+      console.log(res.data)
     }
     Fetch()
-  }, [posts])
+  }, [])
   const click = async (photoid) => {
     console.log(photoid, userData[0].id)
     await axios
@@ -36,7 +37,7 @@ function Home() {
           <Grid item xs={12} md={12} lg={12}>
             <div class="card" key={key}>
               <div class="profile">
-                <h4>Tejash Vaishnav</h4>
+                <h4>{item.username}</h4>
                 <h5>Somewhere</h5>
                 <h6>Follow</h6>
                 <img src="https://picsum.photos/200/300" alt="pic" />
@@ -75,10 +76,18 @@ function Home() {
                 </div>
               </div>
               <div class="about-post">
-                <h4>
+                <p>
                   <img alt="pic" src="https://picsum.photos/id/26/20" /> Liked
-                  by Gandijuha and 104,424 others
-                </h4>
+                  by
+                  {item.likedUsers.map((x, y) => {
+                    return (
+                      <span>
+                        {" "}
+                        {x} {","}
+                      </span>
+                    )
+                  })}
+                </p>
                 <h4 class="name_caption">
                   Tejash Vaishnav{" "}
                   <span id="caption">

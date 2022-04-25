@@ -61,6 +61,7 @@ app.get("/login/:name/:pass", (req, res) => {
   })
 })
 app.post("/signup", (req, res) => {
+  console.log("aya")
   const username = req.body.username
   const password = req.body.password
   console.log(username + password)
@@ -118,9 +119,47 @@ app.get("/getpost/:id/:photoid", (req, res) => {
     }
   )
 })
+var arr = []
+var finalResult = []
 app.get("/getposts", (req, res) => {
-  db.query("select * from photos", (err, result) => {
-    res.json(result)
+  //console.log("aya")
+
+  db.query("select id, image_url,user_id from photos ", (err, result) => {
+    arr.push(result)
+    console.log(result)
+    for (let i = 0; i < arr[0].length; i++) {
+      db.query(
+        "select username from users where id in (select user_id from likes where photo_id=?)",
+        arr[0][i].id,
+        (err, result2) => {
+          var obj = {}
+          var usernames = []
+          result2.map(({ username }) => {
+            usernames.push(username)
+          })
+
+          //to find the creater of post
+          obj["id"] = arr[0][i].id
+
+          obj["image_url"] = arr[0][i].image_url
+          obj["likedUsers"] = usernames
+          db.query(
+            "select username from users where id=?",
+            arr[0][i].user_id,
+            (error, result3) => {
+              console.log(result3[0].username)
+              obj["postMadeBy"] = result3[0].username
+            }
+          )
+
+          finalResult.push(obj)
+          //console.log(obj)
+        }
+      )
+    }
+    //console.log(arr[0][1])
+    //console.log(finalResult)
+    res.json(finalResult)
   })
 })
 app.post("/likes", (req, res) => {
@@ -137,6 +176,7 @@ app.post("/likes", (req, res) => {
           console.log(result)
           res.send({
             count: result[0].count,
+            users: ["komal", "rohan"],
           })
         }
       )
