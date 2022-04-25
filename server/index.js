@@ -75,12 +75,14 @@ app.post("/signup", (req, res) => {
   )
 })
 app.post("/post", (req, res) => {
+  console.log("aya")
   const image_url = req.body.img_url
   const user_id = req.body.user_id
+  const username = req.body.username
   console.log(req.body)
   db.query(
-    "INSERT INTO photos(image_url,user_id) VALUES(?,?)",
-    [image_url, user_id],
+    "INSERT INTO photos(image_url,user_id,username) VALUES(?,?,?)",
+    [image_url, user_id, username],
     (err, result) => {
       if (err) console.log(err)
       else res.send("values inserted")
@@ -124,7 +126,7 @@ var finalResult = []
 app.get("/getposts", (req, res) => {
   //console.log("aya")
 
-  db.query("select id, image_url,user_id from photos ", (err, result) => {
+  db.query("select id, image_url,username from photos ", (err, result) => {
     arr.push(result)
     console.log(result)
     for (let i = 0; i < arr[0].length; i++) {
@@ -143,16 +145,19 @@ app.get("/getposts", (req, res) => {
 
           obj["image_url"] = arr[0][i].image_url
           obj["likedUsers"] = usernames
+          obj["postMadeBy"] = arr[0][i].username
           db.query(
-            "select username from users where id=?",
-            arr[0][i].user_id,
-            (error, result3) => {
-              console.log(result3[0].username)
-              obj["postMadeBy"] = result3[0].username
+            "select comment_text,username from comments where photo_id=?",
+            arr[0][i].id,
+            (err, result3) => {
+              const comments = []
+              result3.map((item, key) => {
+                comments.push(item)
+              })
+              obj["comments"] = comments
+              finalResult.push(obj)
             }
           )
-
-          finalResult.push(obj)
           //console.log(obj)
         }
       )
@@ -161,6 +166,21 @@ app.get("/getposts", (req, res) => {
     //console.log(finalResult)
     res.json(finalResult)
   })
+})
+app.post("/comment", (req, res) => {
+  const comment = req.body.comment
+  const userid = req.body.id
+  const photoid = req.body.photoid
+  const username = req.body.username
+  db.query(
+    "INSERT INTO comments(comment_text,photo_id,user_id,username) VALUES(?,?,?,?)",
+    [comment, photoid, userid, username],
+    (err, result) => {
+      console.log(result)
+      if (err) console.log(err)
+      else res.send("values inserted")
+    }
+  )
 })
 app.post("/likes", (req, res) => {
   //console.log(req.body)

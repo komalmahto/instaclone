@@ -30,11 +30,12 @@ function Header() {
 
     const loggedin = localStorage.getItem("loggedin")
     var userData = JSON.parse(localStorage.getItem("userData"))
-    console.log(userData[0].id)
+    console.log(userData[0])
     axios
       .post("http://localhost:3001/post", {
         img_url: response.data.secure_url,
         user_id: userData[0].id,
+        username: userData[0].username,
       })
       .then((response) => {
         console.log(response)

@@ -6,14 +6,17 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined"
 import axios from "axios"
 import { Grid } from "@material-ui/core"
+import SendOutlinedIcon from "@mui/icons-material/SendOutlined"
 function Home() {
+  const [commented, setCommented] = useState([])
   const [posts, setPosts] = useState([])
-
+  const [comment, setComment] = useState("")
   var userData = JSON.parse(localStorage.getItem("userData"))
   useEffect(() => {
     const Fetch = async () => {
       const res = await axios.get("http://localhost:3001/getposts")
       setPosts(res.data)
+
       console.log(res.data)
     }
     Fetch()
@@ -30,6 +33,20 @@ function Home() {
       })
     console.log("click")
   }
+  const addComment = async (photoid) => {
+    console.log(comment)
+    await axios
+      .post("http://localhost:3001/comment", {
+        id: userData[0].id,
+        photoid: photoid,
+        comment: comment,
+        username: userData[0].username,
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+    setComment("")
+  }
   return (
     <Grid container spacing={2}>
       {posts.map((item, key) => {
@@ -37,7 +54,7 @@ function Home() {
           <Grid item xs={12} md={12} lg={12}>
             <div class="card" key={key}>
               <div class="profile">
-                <h4>{item.username}</h4>
+                <h4>{item.postMadeBy}</h4>
                 <h5>Somewhere</h5>
                 <h6>Follow</h6>
                 <img src="https://picsum.photos/200/300" alt="pic" />
@@ -88,19 +105,28 @@ function Home() {
                     )
                   })}
                 </p>
-                <h4 class="name_caption">
-                  Tejash Vaishnav{" "}
-                  <span id="caption">
-                    The real test is not whether you avoid this failure, because
-                    you won't.....
-                  </span>
-                </h4>
+                {item.comments.map((item, key) => {
+                  return (
+                    <h4 class="name_caption">
+                      <b>{item.username} </b>
+                      <span id="caption">{item.comment_text}</span>
+                    </h4>
+                  )
+                })}{" "}
                 <h5>View all 69 comments</h5>
                 <h4>
                   <img alt="pic" src="https://picsum.photos/id/19/19" />
                   <input
                     type="text"
                     placeholder="add a comment &#128512;&#128516;&#128525;&#128151;"
+                    onChange={(e) => {
+                      setComment(e.target.value)
+                    }}
+                  />
+                  <SendOutlinedIcon
+                    onClick={() => {
+                      addComment(item.id)
+                    }}
                   />
                 </h4>
                 <h6>26 minutes ago</h6>
