@@ -24,7 +24,6 @@ const Profile = () => {
 
   return (
     <div class="">
-      <Header />
       <div className="container">
         <section>
           <div class="row text-center align-items-center p-2 px-4">
@@ -32,7 +31,6 @@ const Profile = () => {
               <img
                 src="https://loremflickr.com/200/200/dogs?random=0"
                 class="img-fluid rounded-circle"
-                alt="Profil Picture"
               />
             </div>
             <div class="col-3 border fw-bold">

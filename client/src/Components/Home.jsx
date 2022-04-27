@@ -7,8 +7,10 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 import axios from "axios"
 import { Grid } from "@material-ui/core"
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined"
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined"
 function Home() {
   const [commented, setCommented] = useState([])
+  const [liked, setLiked] = useState(false)
   const [posts, setPosts] = useState([])
   const [comment, setComment] = useState("")
   var userData = JSON.parse(localStorage.getItem("userData"))
@@ -23,6 +25,7 @@ function Home() {
   }, [])
   const click = async (photoid) => {
     console.log(photoid, userData[0].id)
+    setLiked(true)
     await axios
       .post("http://localhost:3001/likes", {
         id: userData[0].id,
@@ -43,9 +46,9 @@ function Home() {
         username: userData[0].username,
       })
       .then((response) => {
+        setComment(null)
         console.log(response.data)
       })
-    setComment("")
   }
   return (
     <Grid container spacing={2}>
@@ -73,12 +76,23 @@ function Home() {
               </div>
               <div class="icons">
                 <div>
-                  <FavoriteBorderOutlinedIcon
-                    style={{ margin: "10px 10px 2px 10px", fontSize: "30px" }}
-                    onClick={() => {
-                      click(item.id)
-                    }}
-                  />
+                  {liked === false ? (
+                    <FavoriteBorderOutlinedIcon
+                      style={{ margin: "10px 10px 2px 10px", fontSize: "30px" }}
+                      onClick={() => {
+                        click(item.id)
+                      }}
+                    />
+                  ) : (
+                    <FavoriteOutlinedIcon
+                      style={{
+                        margin: "10px 10px 2px 10px",
+                        fontSize: "30px",
+                        color: "rgb(237, 73, 86)",
+                      }}
+                    />
+                  )}
+
                   <ChatBubbleOutlineOutlinedIcon
                     style={{ margin: "10px 10px 2px 10px", fontSize: "30px" }}
                   />

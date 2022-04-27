@@ -7,6 +7,7 @@ import Signup from "./Components/Signup.jsx"
 import Profile from "./Components/Profile.jsx"
 import Photo from "./Components/Photo.jsx"
 import Home from "./Components/Home.jsx"
+import Header from "./Components/Header.jsx"
 function App() {
   const [x, setx] = useState()
   const [y, sety] = useState()
@@ -22,6 +23,7 @@ function App() {
   }
   return (
     <div>
+      <Header />
       <Router>
         <Switch>
           <Route exact path="/login" component={Login} />
