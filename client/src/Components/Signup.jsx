@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import "./Login.css"
+import { USER_SERVER } from "../config"
 import axios from "axios"
 function Signup() {
   const [username, setUsername] = useState("")
@@ -7,7 +8,7 @@ function Signup() {
   const register = () => {
     console.log(username + password)
     axios
-      .post("http://localhost:3001/signup", {
+      .post(`${USER_SERVER}/signup`, {
         username: username,
         password: password,
       })

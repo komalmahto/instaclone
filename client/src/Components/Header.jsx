@@ -9,6 +9,7 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import Dropzone from "react-dropzone"
 import { Image } from "cloudinary-react"
 import axios from "axios"
+import { USER_SERVER } from "../config"
 function Header() {
   const [photo, setPhoto] = useState("")
 
@@ -32,7 +33,7 @@ function Header() {
     var userData = JSON.parse(localStorage.getItem("userData"))
     console.log(userData[0])
     axios
-      .post("http://localhost:3001/post", {
+      .post(`${USER_SERVER}/post`, {
         img_url: response.data.secure_url,
         user_id: userData[0].id,
         username: userData[0].username,
@@ -65,7 +66,7 @@ function Header() {
 
             <ul class="navbar-nav list-group-horizontal">
               <li class="nav-item px-1">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/home">
                   <HomeOutlinedIcon
                     fontSize="large"
                     style={{ color: "black" }}
@@ -90,7 +91,7 @@ function Header() {
               </li>
 
               <li class="nav-item px-1">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/profile">
                   <FavoriteBorderOutlinedIcon
                     fontSize="large"
                     style={{ color: "black" }}
@@ -106,65 +107,24 @@ function Header() {
                   />
                 </a>
               </li>
+              <li class="nav-item px-1">
+                <a class="nav-link" href="/profile">
+                  <PersonOutlineOutlinedIcon
+                    fontSize="large"
+                    style={{ color: "black" }}
+                  />
+                </a>
+              </li>
 
               {/* <li class="nav-item px-1">
           <a class="nav-link" href="#">
             <CircleOutlinedIcon />
           </a>
         </li> */}
-
-              <li class="nav-item dropdown px-1">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="profile_dropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <PersonOutlineOutlinedIcon
-                    fontSize="large"
-                    style={{ color: "black" }}
-                  />
-                </a>
-
-                <ul
-                  class="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="profile_dropdown"
-                >
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <i class="fa fa-lg fa-user-edit"></i>&nbsp;Profil
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <i class="fa fa-lg fa-bookmark"></i>&nbsp;&nbsp; Saved
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <i class="fa fa-lg fa-cog"></i>&nbsp;&nbsp;Settings
-                    </a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Disconnect
-                    </a>
-                  </li>
-                </ul>
-              </li>
             </ul>
           </div>
         </nav>
       </div>
-      {/* <div style={{ width: "100%", height: "200px" }}>
-        {" "}
-        <Image cloudName="digvkvltj" publicId={img} />
-      </div> */}
     </div>
   )
 }

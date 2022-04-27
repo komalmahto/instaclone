@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import "./Login.css"
 import { useHistory } from "react-router-dom"
 import axios from "axios"
+import { USER_SERVER } from "../config"
 function Login() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -11,22 +12,18 @@ function Login() {
     const name = username
     const pass = password
     console.log(name)
-    axios
-      .get(`http://localhost:3001/login/${name}/${pass}`)
-      .then((response) => {
-        if (response.data.loggedin === true) {
-          localStorage.setItem("loggedin", true)
-          localStorage.setItem(
-            "userData",
-            JSON.stringify(response.data.userData)
-          )
-          alert(response.data.message)
-          history.push("/profile")
-          console.log(response)
-        } else {
-          console.log(response.data.message)
-        }
-      })
+    //http://localhost:3001/login/${name}/${pass}
+    axios.get(`${USER_SERVER}/login/${name}/${pass}`).then((response) => {
+      if (response.data.loggedin === true) {
+        localStorage.setItem("loggedin", true)
+        localStorage.setItem("userData", JSON.stringify(response.data.userData))
+        alert(response.data.message)
+        history.push("/profile")
+        console.log(response)
+      } else {
+        console.log(response.data.message)
+      }
+    })
   }
   return (
     <>

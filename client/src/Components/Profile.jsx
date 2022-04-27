@@ -1,7 +1,5 @@
 import axios from "axios"
 import React, { useState, useEffect } from "react"
-import Header from "./Header"
-import { Link, NavLink } from "react-router-dom"
 import "./Home.css"
 import Modal from "./Modal"
 import { Image } from "cloudinary-react"
@@ -74,7 +72,7 @@ const Profile = () => {
                       onClick={() => click()}
                     />
                   </div>
-                  {/* </button> */}
+
                   {modal === true ? (
                     <Modal
                       photo={item.image_url}

@@ -9,8 +9,7 @@ export default class Modal extends Component {
       display: "block",
       backgroundColor: "rgba(0,0,0,0.8)",
     }
-    const des = this.props
-    //console.log(des.username)
+
     return (
       <div className="modal show fade" tabindex="-1" style={modelStyle}>
         <div className="modal-dialog modal-xl modal-dialog-scrollable">
