@@ -89,6 +89,7 @@ app.post("/post", (req, res) => {
     }
   )
 })
+let comments = []
 app.get("/getposts/:id", (req, res) => {
   const id = req.params.id
   db.query("select * from photos where user_id=?", id, (err, result) => {
@@ -96,13 +97,34 @@ app.get("/getposts/:id", (req, res) => {
       console.log(err)
     } else {
       //console.log(result)
-      const photos = []
-      result.map((item, val) => {
-        photos.push({ id: item.id, image_url: item.image_url })
-      })
-      console.log(photos)
+
+      for (let i = 0; i < result.length; i++) {
+        db.query(
+          "select * from comments where photo_id=?",
+          result[i].id,
+          (err, result1) => {
+            //console.log(result1)
+            comments.push(result1)
+            // photos.push({
+            //   id: item.id,
+            //   image_url: item.image_url,
+            //   username: item.username,
+            // })
+          }
+        )
+      }
+
+      // result.map((item, val) => {
+      //   photos.push({
+      //     id: item.id,
+      //     image_url: item.image_url,
+      //     username: item.username,
+      //   })
+      // })
+      //console.log(photos)
       res.json({
-        photos: photos,
+        photos: result,
+        comments: comments,
       })
     }
   })
@@ -123,7 +145,8 @@ app.get("/getpost/:id/:photoid", (req, res) => {
 })
 var arr = []
 var finalResult = []
-app.get("/getposts", (req, res) => {
+app.get("/getposts/home/:id", (req, res) => {
+  const id = req.params.id
   //console.log("aya")
 
   db.query("select id, image_url,username from photos ", (err, result) => {
@@ -155,7 +178,20 @@ app.get("/getposts", (req, res) => {
                 comments.push(item)
               })
               obj["comments"] = comments
+
+              db.query(
+                "select * from likes where photo_id=? and user_id=?",
+                [arr[0][i].id, id],
+                (err, result4) => {
+                  if (result4.length > 0) {
+                    obj["liked"] = true
+                  } else {
+                    obj["liked"] = false
+                  }
+                }
+              )
               finalResult.push(obj)
+              console.log(obj)
             }
           )
           //console.log(obj)
@@ -167,11 +203,36 @@ app.get("/getposts", (req, res) => {
     res.json(finalResult)
   })
 })
+app.get("/preliked/:pid/:uid", (req, res) => {
+  const pid = req.params.pid
+  const uid = req.params.uid
+  console.log("hit")
+  db.query(
+    "select * from likes where photo_id=? and user_id=?",
+    [pid, uid],
+    (err, result) => {
+      if (result.length > 0) {
+        res.json({
+          photo_id: photo_id,
+          user_id: user_id,
+          liked: true,
+        })
+      } else {
+        res.json({
+          photo_id: photo_id,
+          user_id: user_id,
+          liked: false,
+        })
+      }
+    }
+  )
+})
 app.post("/comment", (req, res) => {
   const comment = req.body.comment
   const userid = req.body.id
   const photoid = req.body.photoid
   const username = req.body.username
+  console.log(comment)
   db.query(
     "INSERT INTO comments(comment_text,photo_id,user_id,username) VALUES(?,?,?,?)",
     [comment, photoid, userid, username],
@@ -182,6 +243,7 @@ app.post("/comment", (req, res) => {
     }
   )
 })
+
 app.post("/likes", (req, res) => {
   //console.log(req.body)
 

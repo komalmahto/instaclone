@@ -5,20 +5,22 @@ import Modal from "./Modal"
 import { Image } from "cloudinary-react"
 const Profile = () => {
   const [post, setPosts] = useState([])
+  const [curr, setCurr] = useState()
   const [modal, setModal] = useState(false)
   var userData = JSON.parse(localStorage.getItem("userData"))[0]
-  const click = () => {
+  const click = (key) => {
+    setCurr(key)
     setModal(true)
   }
   useEffect(() => {
     const Fetch = async () => {
       const id = userData.id
       const res = await axios.get(`http://localhost:3001/getposts/${id}`)
-      setPosts(res.data.photos)
-      //console.log(res.data.photos)
+      setPosts(res.data)
+      console.log(res.data)
     }
     Fetch()
-  }, [post])
+  }, [])
 
   return (
     <div class="">
@@ -59,7 +61,8 @@ const Profile = () => {
           </div>
 
           <div class="row text-center">
-            {post.map((item, key) => {
+            {post.photos?.map((item, key) => {
+              console.log(post.comments[key])
               return (
                 <>
                   {/* <button onClick={setModal(true)}> */}
@@ -69,15 +72,16 @@ const Profile = () => {
                       publicId={item.image_url}
                       class="img-fluid img-thumbnail rounded"
                       alt="Profil Picture"
-                      onClick={() => click()}
+                      onClick={() => click(key)}
                     />
                   </div>
 
                   {modal === true ? (
                     <Modal
-                      photo={item.image_url}
-                      user={userData.username}
+                      photo={post.photos[curr].image_url}
+                      user={item.username}
                       hide={() => setModal(false)}
+                      comment={post.comments[curr]}
                     />
                   ) : (
                     ""

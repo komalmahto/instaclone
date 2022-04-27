@@ -21,26 +21,28 @@ function Header() {
       header: { "content-type": "multipart/form-data" },
     }
 
-    formData.append("file", photo)
+    formData.append("file", files[0])
 
     formData.append("upload_preset", "tgkyyzcb")
     const response = await axios.post(
       "https://api.cloudinary.com/v1_1/digvkvltj/upload",
       formData
     )
-
-    const loggedin = localStorage.getItem("loggedin")
-    var userData = JSON.parse(localStorage.getItem("userData"))
-    console.log(userData[0])
-    axios
-      .post(`${USER_SERVER}/post`, {
-        img_url: response.data.secure_url,
-        user_id: userData[0].id,
-        username: userData[0].username,
-      })
-      .then((response) => {
-        console.log(response)
-      })
+    console.log(response)
+    if (response?.data?.secure_url) {
+      const loggedin = localStorage.getItem("loggedin")
+      var userData = JSON.parse(localStorage.getItem("userData"))
+      console.log(userData[0])
+      axios
+        .post(`${USER_SERVER}/post`, {
+          img_url: response.data.secure_url,
+          user_id: userData[0].id,
+          username: userData[0].username,
+        })
+        .then((response) => {
+          console.log(response)
+        })
+    }
   }
 
   return (
@@ -49,11 +51,13 @@ function Header() {
       <div style={{ borderBottom: "1px solid #dbdbdb", padding: "0 250px" }}>
         <nav class="navbar navbar-expand-sm navbar-light ">
           <div class="container-fluid">
-            <img
-              src="	https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png
+            <a href="/home">
+              <img
+                src="	https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png
 "
-              height="40"
-            />
+                height="40"
+              />
+            </a>
 
             <form class="d-none d-lg-flex mx-auto mb-2 mb-lg-0">
               <input
