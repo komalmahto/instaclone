@@ -1,8 +1,11 @@
 import React, { useState } from "react"
 import "./Login.css"
+import { Link } from "react-router-dom"
 import { USER_SERVER } from "../config"
 import axios from "axios"
+import { useNavigate } from "react-router"
 function Signup() {
+  const navigate = useNavigate()
   console.log("gggggg")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -14,6 +17,7 @@ function Signup() {
         password: password,
       })
       .then((response) => {
+        navigate("/login")
         console.log(response)
       })
   }
@@ -78,12 +82,11 @@ function Signup() {
         </div>
 
         <div class="sign-up-container">
-          <div class="new-user">
-            Already have an account?{" "}
-            <a class="sign-up-text" href="#">
-              Login
-            </a>
-          </div>
+          <Link style={{ textDecoration: "none" }} to="/login">
+            <div class="new-user login-with-fb">
+              Already have an account? Login
+            </div>
+          </Link>
         </div>
       </div>
       <div class="cta-app">Get the app.</div>

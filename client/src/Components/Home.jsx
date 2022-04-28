@@ -156,12 +156,11 @@ function Home() {
                         <a href={`/profile/${item.username}`}>
                           {item.username}
                         </a>
-                        {/* <b>{item.username} </b> */}
+
                         <span id="caption">{item.comment_text}</span>
                       </h4>
                     )
                   })}{" "}
-                  {/* <h5>View all 69 comments</h5> */}
                   <h4>
                     <img alt="pic" src="https://picsum.photos/id/19/19" />
                     <input

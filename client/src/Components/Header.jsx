@@ -89,8 +89,7 @@ function Header() {
               <li class="nav-item px-1">
                 <a class="nav-link" href="/home">
                   <HomeOutlinedIcon
-                    fontSize="large"
-                    style={{ color: "black" }}
+                    style={{ color: "black", fontSize: "30px" }}
                   />
                 </a>
               </li>
@@ -102,8 +101,7 @@ function Header() {
                       <input {...getInputProps()} />
 
                       <AddBoxOutlinedIcon
-                        fontSize="large"
-                        style={{ color: "black" }}
+                        style={{ color: "black", fontSize: "30px" }}
                       />
                     </div>
                   )}
@@ -114,8 +112,7 @@ function Header() {
               <li class="nav-item px-1">
                 <a class="nav-link" href="/profile">
                   <FavoriteBorderOutlinedIcon
-                    fontSize="large"
-                    style={{ color: "black" }}
+                    style={{ color: "black", fontSize: "30px" }}
                   />
                 </a>
               </li>
@@ -123,16 +120,14 @@ function Header() {
               <li class="nav-item px-1">
                 <a class="nav-link" href="#">
                   <ExploreOutlinedIcon
-                    fontSize="large"
-                    style={{ color: "black" }}
+                    style={{ color: "black", fontSize: "30px" }}
                   />
                 </a>
               </li>
               <li class="nav-item px-1">
                 <a class="nav-link" href={`/profile/${username}`}>
                   <PersonOutlineOutlinedIcon
-                    fontSize="large"
-                    style={{ color: "black" }}
+                    style={{ color: "black", fontSize: "30px" }}
                   />
                 </a>
               </li>

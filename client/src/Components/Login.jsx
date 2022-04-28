@@ -119,8 +119,10 @@ function Login() {
         </div>
 
         <div class="sign-up-container">
-          <Link to="/signup">
-            <div class="new-user">Don't have an account? Sign up</div>
+          <Link style={{ textDecoration: "none" }} to="/signup">
+            <div class="new-user login-with-fb">
+              Don't have an account? Sign up
+            </div>
           </Link>
         </div>
       </div>
