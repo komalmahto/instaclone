@@ -75,6 +75,7 @@ function Header() {
 
             <form class="d-none d-lg-flex mx-auto mb-2 mb-lg-0">
               <input
+                style={{ width: "20vw" }}
                 class="form-control me-2"
                 type="search"
                 placeholder="Search"
@@ -83,7 +84,10 @@ function Header() {
                   setsearchUser(e.target.value)
                 }}
               />
-              <SearchOutlinedIcon onClick={search} />
+              <SearchOutlinedIcon
+                onClick={search}
+                style={{ color: "black", fontSize: "30px" }}
+              />
             </form>
 
             <ul class="navbar-nav list-group-horizontal">
