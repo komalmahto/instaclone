@@ -9,6 +9,7 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import Dropzone from "react-dropzone"
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined"
 import { Image } from "cloudinary-react"
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined"
 import axios from "axios"
 import { useNavigate } from "react-router"
 import { AuthContext } from "../Context/AuthContext"
@@ -132,10 +133,11 @@ function Header() {
                 </a>
               </li>
               <li class="nav-item px-1">
-                <a href="/logout" style={{ textDecoration: `none` }}>
-                  <div className="">
-                    <h5 onClick={handleLogOut}>Logout</h5>
-                  </div>
+                <a class="nav-link" href="/logout">
+                  <LogoutOutlinedIcon
+                    onClick={handleLogOut}
+                    style={{ color: "black", fontSize: "30px" }}
+                  />
                 </a>
               </li>
               {/* <li class="nav-item px-1">
