@@ -51,14 +51,12 @@ function Header() {
   }
   const search = () => {
     console.log(searchUser)
-    axios.get(`${USER_SERVER}/profile/${searchUser}`).then((response) => {
-      console.log(response)
-    })
+    navigate(`profile/${searchUser}`)
   }
   const handleLogOut = () => {
     localStorage.removeItem("user")
     navigate("/login")
-    window.location.reload()
+    window.location.reload(false)
   }
   return (
     <div>

@@ -24,12 +24,12 @@
       border-radius:50%;
       object-fit: cover;
     }
-    .profile h4{
-      position:absolute;
+    .profile a{
+       
       font-size:16px;
       font-weight:strong;
       padding-left:70px;
-      padding-top:4%;
+      padding-top:4%; 
     
     }
     .profile i{

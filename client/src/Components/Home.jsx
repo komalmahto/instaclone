@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import "./Home.css"
+import { Link } from "react-router-dom"
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined"
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined"
@@ -58,7 +59,7 @@ function Home() {
       })
     console.log("click")
     //navigate("/home")
-    //window.location.reload(false)
+    window.location.reload(false)
   }
   const addComment = async (photoid) => {
     console.log(comment)
@@ -73,7 +74,7 @@ function Home() {
         setComment(null)
         console.log(response.data)
       })
-    //window.location.reload(false)
+    window.location.reload(false)
   }
   return (
     <Grid container spacing={2}>
@@ -83,9 +84,10 @@ function Home() {
             <Grid item xs={12} md={12} lg={12}>
               <div class="card" key={key}>
                 <div class="profile">
-                  <h4>{item.postMadeBy}</h4>
+                  <a href={`/profile/${item.postMadeBy}`}>{item.postMadeBy}</a>
+
                   <h5>Somewhere</h5>
-                  <h6>Follow</h6>
+
                   <img src="https://picsum.photos/200/300" alt="pic" />
 
                   <i
@@ -151,7 +153,10 @@ function Home() {
                   {item.comments.map((item, key) => {
                     return (
                       <h4 class="name_caption">
-                        <b>{item.username} </b>
+                        <a href={`/profile/${item.username}`}>
+                          {item.username}
+                        </a>
+                        {/* <b>{item.username} </b> */}
                         <span id="caption">{item.comment_text}</span>
                       </h4>
                     )

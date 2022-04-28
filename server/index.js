@@ -159,7 +159,7 @@ let arr = []
 let finalResult = []
 
 app.get("/getposts/home/:id", (req, res) => {
-  finalResult = []
+  //finalResult = []
   const id = req.params.id
   //console.log("aya")
   console.log(finalResult.length)

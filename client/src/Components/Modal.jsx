@@ -27,7 +27,7 @@ function Modal(props) {
         setComment(null)
         console.log(response.data)
       })
-    // window.location.reload(false)
+    window.location.reload(false)
   }
   const onEmojiClick = (event, emojiObject) => {
     console.log(typeof emojiObject.emoji)
