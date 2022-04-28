@@ -18,7 +18,7 @@ function Home() {
   const id = user?.userData[0].id
   console.log(user?.userData[0])
 
-  const [commented, setCommented] = useState([])
+  const [nm, setnm] = useState([])
   const [preLiked, setPreliked] = useState(null)
   const [liked, setLiked] = useState(false)
   const [posts, setPosts] = useState([])
@@ -88,7 +88,10 @@ function Home() {
 
                   <h5>Somewhere</h5>
 
-                  <img src="https://picsum.photos/200/300" alt="pic" />
+                  <img
+                    src={`https://ui-avatars.com/api/?name=${item.postMadeBy}`}
+                    alt="pic"
+                  />
 
                   <i
                     class="bi bi-three-dots-vertical fa-2x"

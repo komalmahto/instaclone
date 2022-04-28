@@ -74,3 +74,15 @@ Open browser and goto http://localhost:3000/
 ---
 
 <img src="/Screenshorts/signup.png">
+
+#### Open Post
+
+---
+
+<img src="/Screenshorts/openpost.png">
+
+#### Profile
+
+---
+
+<img src="/Screenshorts/profile.png">

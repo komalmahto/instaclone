@@ -58,27 +58,54 @@ const Profile = () => {
       <div className="container">
         <section>
           <div
-            style={{ display: "flex" }}
             class="text-center align-items-center p-2 px-4"
+            style={{ display: "flex" }}
           >
-            <div class="">
+            <div class="" style={{ flex: "0.4" }}>
               <img
-                src="https://loremflickr.com/200/200/dogs?random=0"
+                src={`https://ui-avatars.com/api/?name=${username}`}
                 class="img-fluid rounded-circle"
+                style={{ height: "150px" }}
               />
             </div>
 
-            <div class="justify-content-center p-3">
-              <div class="col-10">
-                <strong>{username}</strong>
-                <button onClick={addFollower}>Follow</button>
+            <div class="justify-content-center p-3" style={{ flex: "0.6" }}>
+              <div
+                class="col-10"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "2rem",
+                }}
+              >
+                <div style={{ marginRight: "2rem" }}>
+                  <p style={{ fontSize: "25px", margin: "0", padding: "0" }}>
+                    <b>{username}</b>
+                  </p>
+                </div>
+                <div style={{ fontSize: "14px" }}>
+                  <button
+                    onClick={addFollower}
+                    style={{
+                      border: "none",
+                      padding: "1.5px 7px",
+                      backgroundColor: "#458eff",
+                      borderRadius: "3px",
+                      color: "white",
+                    }}
+                  >
+                    Follow
+                  </button>
+                </div>
+              </div>
+              {/* <div style={{ textAlign: "left" }}>
                 <br />
                 Colorado
                 <br />
                 Who Let The Dogs out ??!
-              </div>
+              </div> */}
               <div class="row">
-                <div class="col-3 border fw-bold">
+                <div class="col-3 border fw-bold" style={{ fontSize: "14px" }}>
                   {post?.photos?.length}
                   <br />
                   Posts
@@ -86,6 +113,7 @@ const Profile = () => {
                 <div
                   onClick={() => showFollower()}
                   class="col-3 border fw-bold"
+                  style={{ fontSize: "14px" }}
                 >
                   {post?.followers?.length}
                   <br />
@@ -102,6 +130,7 @@ const Profile = () => {
                 <div
                   onClick={() => showFollowings()}
                   class="col-3 border fw-bold"
+                  style={{ fontSize: "14px" }}
                 >
                   {post?.followings?.length}
                   <br />
