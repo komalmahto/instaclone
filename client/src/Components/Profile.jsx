@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from "react"
 import { Link, useParams } from "react-router-dom"
 import "./Home.css"
 import FollowerModal from "./FollowerModal"
+import FollowingModal from "./FollowingModal"
 import { USER_SERVER } from "../config"
 import { AuthContext } from "../Context/AuthContext"
 import Modal from "./Modal"
@@ -44,10 +45,10 @@ const Profile = () => {
   const addFollower = async () => {
     console.log("click")
     const response = await axios.post(`${USER_SERVER}/follow`, {
-      follower: id,
-      followee: post.photos[0].user_id,
-      follower_username: username,
-      followee_username: userName,
+      follower: post.photos[0].user_id,
+      followee: id,
+      follower_username: userName,
+      followee_username: username,
     })
     console.log(response)
   }
@@ -69,7 +70,7 @@ const Profile = () => {
 
             <div class="justify-content-center p-3">
               <div class="col-10">
-                <strong>{userName}</strong>
+                <strong>{username}</strong>
                 <button onClick={addFollower}>Follow</button>
                 <br />
                 Colorado
@@ -99,7 +100,7 @@ const Profile = () => {
                   ""
                 )}
                 <div
-                  onClick={() => showFollower()}
+                  onClick={() => showFollowings()}
                   class="col-3 border fw-bold"
                 >
                   {post?.followings?.length}
@@ -107,8 +108,8 @@ const Profile = () => {
                   Followings
                 </div>
                 {folling === true ? (
-                  <FollowerModal
-                    follower={post?.followings}
+                  <FollowingModal
+                    followings={post?.followings}
                     hide={() => setFolling(false)}
                   />
                 ) : (

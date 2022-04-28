@@ -13,7 +13,7 @@ function FollowingModal(props) {
     backgroundColor: "rgba(0,0,0,0.8)",
   }
 
-  console.log(props.follower[0])
+  console.log(props.followings)
   return (
     <div className="modal show fade" tabindex="-1" style={modelStyle}>
       <div className="modal-dialog modal-xs modal-dialog-scrollable">
@@ -23,8 +23,8 @@ function FollowingModal(props) {
             style={{ justifyContent: "space-between" }}
           >
             <ClearOutlinedIcon onClick={props.hide} fontSize="large" />
-            {props.follower.map((item, key) => {
-              return <li key={key}>{item.follower_username}</li>
+            {props.followings.map((item, key) => {
+              return <li key={key}>{item.followee_username}</li>
             })}
           </div>
         </div>
