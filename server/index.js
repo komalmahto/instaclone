@@ -93,6 +93,7 @@ let comments = []
 app.get("/getposts/:username", (req, res) => {
   const username = req.params.username
   comments = []
+  console.log("yaa")
   db.query("select * from photos where username=?", username, (err, result) => {
     if (err) {
       console.log(err)
@@ -106,23 +107,10 @@ app.get("/getposts/:username", (req, res) => {
           (err, result1) => {
             //console.log(result1)
             comments.push(result1)
-            // photos.push({
-            //   id: item.id,
-            //   image_url: item.image_url,
-            //   username: item.username,
-            // })
           }
         )
       }
 
-      // result.map((item, val) => {
-      //   photos.push({
-      //     id: item.id,
-      //     image_url: item.image_url,
-      //     username: item.username,
-      //   })
-      // })
-      //console.log(photos)
       res.json({
         photos: result,
         comments: comments,
@@ -203,7 +191,7 @@ app.get("/getposts/home/:id", (req, res) => {
     //console.log(arr[0][1])
     //console.log(finalResult)
     res.json(finalResult)
-    finalResult.length = 0
+    //finalResult.length = 0
     //arr = []
     // finalResult = []
   })

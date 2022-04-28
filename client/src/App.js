@@ -33,8 +33,8 @@ function App() {
   }
   return (
     <div>
-      <Header />
       <Router>
+        <Header />
         <Routes>
           <Route exact path="/signup" element={<Signup />} />
           <Route
@@ -44,6 +44,7 @@ function App() {
           <Route exact path="/profile/:username" element={<Profile />} />
           <Route exact path="/:id/:photoid" element={<Photo />} />
           <Route exact path="/home" element={user ? <Home /> : <Login />} />
+          <Route path="*" element={<h1>Please Login</h1>} />
         </Routes>
       </Router>
       {/* <button onClick={display}>set</button>

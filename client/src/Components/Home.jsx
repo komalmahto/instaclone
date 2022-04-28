@@ -9,7 +9,7 @@ import { Grid } from "@material-ui/core"
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined"
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined"
 import { useNavigate } from "react-router"
-import { WindowSharp } from "@mui/icons-material"
+
 import { AuthContext } from "../Context/AuthContext"
 function Home() {
   //const navigate = useNavigate()
@@ -58,7 +58,7 @@ function Home() {
       })
     console.log("click")
     //navigate("/home")
-    window.location.reload(false)
+    //window.location.reload(false)
   }
   const addComment = async (photoid) => {
     console.log(comment)
@@ -73,7 +73,7 @@ function Home() {
         setComment(null)
         console.log(response.data)
       })
-    window.location.reload(false)
+    //window.location.reload(false)
   }
   return (
     <Grid container spacing={2}>

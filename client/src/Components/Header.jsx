@@ -9,14 +9,16 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import Dropzone from "react-dropzone"
 import { Image } from "cloudinary-react"
 import axios from "axios"
+import { useNavigate } from "react-router"
 import { AuthContext } from "../Context/AuthContext"
 import { USER_SERVER } from "../config"
 function Header() {
+  const navigate = useNavigate()
   const { user } = useContext(AuthContext)
   const id = user?.userData[0].id
+  const username = user?.userData[0].username
   console.log(user?.userData[0])
 
-  // console.log(userData[0])
   const [photo, setPhoto] = useState("")
 
   const onDrop = async (files) => {
@@ -39,14 +41,18 @@ function Header() {
     axios
       .post(`${USER_SERVER}/post`, {
         img_url: response.data.secure_url,
-        user_id: userData[0].id,
-        username: userData[0].username,
+        user_id: id,
+        username: username,
       })
       .then((response) => {
         console.log(response)
       })
   }
-
+  const handleLogOut = () => {
+    localStorage.removeItem("user")
+    navigate("/login")
+    window.location.reload()
+  }
   return (
     <div>
       {" "}
@@ -114,14 +120,20 @@ function Header() {
                 </a>
               </li>
               <li class="nav-item px-1">
-                {/* <a class="nav-link" href={`/profile/${userData[0].username}`}>
+                <a class="nav-link" href={`/profile/${username}`}>
                   <PersonOutlineOutlinedIcon
                     fontSize="large"
                     style={{ color: "black" }}
                   />
-                </a> */}
+                </a>
               </li>
-
+              <li class="nav-item px-1">
+                <a href="/logout" style={{ textDecoration: `none` }}>
+                  <div className="">
+                    <h5 onClick={handleLogOut}>Logout</h5>
+                  </div>
+                </a>
+              </li>
               {/* <li class="nav-item px-1">
           <a class="nav-link" href="#">
             <CircleOutlinedIcon />

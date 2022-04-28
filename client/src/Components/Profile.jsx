@@ -1,16 +1,20 @@
 import axios from "axios"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Link, useParams } from "react-router-dom"
 import "./Home.css"
+import { AuthContext } from "../Context/AuthContext"
 import Modal from "./Modal"
 import { Image } from "cloudinary-react"
 const Profile = () => {
   let { username } = useParams()
-
+  const { user } = useContext(AuthContext)
+  const id = user?.userData[0].id
+  const userName = user?.userData[0].username
+  console.log(username)
   const [post, setPosts] = useState([])
   const [curr, setCurr] = useState()
   const [modal, setModal] = useState(false)
-  var userData = JSON.parse(localStorage.getItem("userData"))[0]
+  //var userData = JSON.parse(localStorage.getItem("userData"))[0]
   const click = (key) => {
     setCurr(key)
     setModal(true)
@@ -56,7 +60,7 @@ const Profile = () => {
 
           <div class="row justify-content-center p-3">
             <div class="col-10">
-              <strong>{userData?.username}</strong>
+              <strong>{userName}</strong>
               <br />
               Colorado
               <br />
