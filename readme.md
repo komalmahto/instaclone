@@ -68,3 +68,9 @@ Open browser and goto http://localhost:3000/
 ---
 
 <img src="/Screenshorts/login.png">
+
+#### Signup Page
+
+---
+
+<img src="/Screenshorts/signup.png">
