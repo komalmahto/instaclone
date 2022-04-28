@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import "./Home.css"
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined"
@@ -8,7 +8,15 @@ import axios from "axios"
 import { Grid } from "@material-ui/core"
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined"
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined"
+import { useNavigate } from "react-router"
+import { WindowSharp } from "@mui/icons-material"
+import { AuthContext } from "../Context/AuthContext"
 function Home() {
+  //const navigate = useNavigate()
+  const { user } = useContext(AuthContext)
+  const id = user?.userData[0].id
+  console.log(user?.userData[0])
+
   const [commented, setCommented] = useState([])
   const [preLiked, setPreliked] = useState(null)
   const [liked, setLiked] = useState(false)
@@ -17,15 +25,13 @@ function Home() {
   var userData = JSON.parse(localStorage.getItem("userData"))
   useEffect(() => {
     const Fetch = async () => {
-      const res = await axios.get(
-        `http://localhost:3001/getposts/home/${userData[0].id}`
-      )
+      const res = await axios.get(`http://localhost:3001/getposts/home/${id}`)
       setPosts(res.data)
 
       console.log(res.data)
     }
     Fetch()
-  }, [])
+  }, [user, id])
   // useEffect(() => {
   //   const FetchlikeData = async (pid, uid) => {
   //     const res = await axios.get(
@@ -51,6 +57,8 @@ function Home() {
         console.log(response.data.count)
       })
     console.log("click")
+    //navigate("/home")
+    window.location.reload(false)
   }
   const addComment = async (photoid) => {
     console.log(comment)
@@ -65,6 +73,7 @@ function Home() {
         setComment(null)
         console.log(response.data)
       })
+    window.location.reload(false)
   }
   return (
     <Grid container spacing={2}>

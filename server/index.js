@@ -27,9 +27,10 @@ app.post("/signup", (req, res) => {
     }
   )
 })
-app.get("/login/:name/:pass", (req, res) => {
-  const username = req.params.name
-  const password = req.params.pass
+
+app.post("/login", (req, res) => {
+  const username = req.body.username
+  const password = req.body.password
   console.log(username, password)
   db.query("select * from users where username=?", username, (err, result) => {
     console.log(result)
@@ -38,7 +39,6 @@ app.get("/login/:name/:pass", (req, res) => {
     } else {
       if (result.length > 0) {
         if (password === result[0].password) {
-          console.log("my")
           var ff = []
           ff.push(result[0])
           res.json({
@@ -90,13 +90,14 @@ app.post("/post", (req, res) => {
   )
 })
 let comments = []
-app.get("/getposts/:id", (req, res) => {
-  const id = req.params.id
-  db.query("select * from photos where user_id=?", id, (err, result) => {
+app.get("/getposts/:username", (req, res) => {
+  const username = req.params.username
+  comments = []
+  db.query("select * from photos where username=?", username, (err, result) => {
     if (err) {
       console.log(err)
     } else {
-      //console.log(result)
+      console.log(result)
 
       for (let i = 0; i < result.length; i++) {
         db.query(
@@ -145,13 +146,14 @@ app.get("/getpost/:id/:photoid", (req, res) => {
 })
 var arr = []
 var finalResult = []
+
 app.get("/getposts/home/:id", (req, res) => {
   const id = req.params.id
   //console.log("aya")
-
+  console.log(finalResult.length)
   db.query("select id, image_url,username from photos ", (err, result) => {
-    arr.push(result)
-    console.log(result)
+    arr = [result]
+    //console.log("array", arr)
     for (let i = 0; i < arr[0].length; i++) {
       db.query(
         "select username from users where id in (select user_id from likes where photo_id=?)",
@@ -191,7 +193,7 @@ app.get("/getposts/home/:id", (req, res) => {
                 }
               )
               finalResult.push(obj)
-              console.log(obj)
+              //console.log(obj)
             }
           )
           //console.log(obj)
@@ -201,6 +203,9 @@ app.get("/getposts/home/:id", (req, res) => {
     //console.log(arr[0][1])
     //console.log(finalResult)
     res.json(finalResult)
+    finalResult.length = 0
+    //arr = []
+    // finalResult = []
   })
 })
 app.get("/preliked/:pid/:uid", (req, res) => {

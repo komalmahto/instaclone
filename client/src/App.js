@@ -1,6 +1,5 @@
 import "./App.css"
-import { useState } from "react"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { useState, useContext } from "react"
 import axios from "axios"
 import Login from "./Components/Login.jsx"
 import Signup from "./Components/Signup.jsx"
@@ -8,7 +7,18 @@ import Profile from "./Components/Profile.jsx"
 import Photo from "./Components/Photo.jsx"
 import Home from "./Components/Home.jsx"
 import Header from "./Components/Header.jsx"
+import { AuthContext } from "./Context/AuthContext"
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+  Link,
+} from "react-router-dom"
 function App() {
+  const { user } = useContext(AuthContext)
+  console.log(user)
   const [x, setx] = useState()
   const [y, sety] = useState()
   const display = () => {
@@ -25,20 +35,16 @@ function App() {
     <div>
       <Header />
       <Router>
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/:id/:photoid" component={Photo} />
-          <Route exact path="/home" component={Home} />
-          {/* <Route exact path="/register" component={Auth(RegisterPage, false)} />
-        <Route exact path="/home" component={Auth(Container, true)} />
-        <Route exact path="/chat" component={Auth(ChatPage, true)} />
-        <Route exact path="/meet" component={Auth(Meet, true)} />
-        <Route exact path="/meet/:url" component={Auth(Video, true)} />
-        <Route exact path="/users" component={Auth(UsersOnline, true)} />
-        <Route exact path="/notes" component={Auth(Notes, true)} /> */}
-        </Switch>
+        <Routes>
+          <Route exact path="/signup" element={<Signup />} />
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/home" /> : <Login />}
+          ></Route>
+          <Route exact path="/profile/:username" element={<Profile />} />
+          <Route exact path="/:id/:photoid" element={<Photo />} />
+          <Route exact path="/home" element={user ? <Home /> : <Login />} />
+        </Routes>
       </Router>
       {/* <button onClick={display}>set</button>
       <div className="App">

@@ -1,29 +1,54 @@
-import React, { useState } from "react"
+import React, { useState, useRef, useContext } from "react"
 import "./Login.css"
-import { useHistory } from "react-router-dom"
-import axios from "axios"
+
 import { USER_SERVER } from "../config"
+import { Link } from "react-router-dom"
+import { AuthContext } from "../Context/AuthContext"
+import { loginCall } from "../apiCalls"
+import { useNavigate } from "react-router"
+import { CircularProgress } from "@mui/material"
 function Login() {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const history = useHistory()
-  const verrify = () => {
-    console.log("ayaaa")
-    const name = username
-    const pass = password
-    console.log(name)
-    //http://localhost:3001/login/${name}/${pass}
-    axios.get(`${USER_SERVER}/login/${name}/${pass}`).then((response) => {
-      if (response.data.loggedin === true) {
-        localStorage.setItem("loggedin", true)
-        localStorage.setItem("userData", JSON.stringify(response.data.userData))
-        alert(response.data.message)
-        history.push("/profile")
-        console.log(response)
-      } else {
-        console.log(response.data.message)
-      }
-    })
+  const username = useRef(null)
+  const password = useRef(null)
+  const { user, isFetching, dispatch } = useContext(AuthContext)
+  console.log(user)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    e.preventDefault()
+    const tempUsername = username.current.value
+    const tempPassword = password.current.value
+    console.log(username, password)
+    loginCall(
+      {
+        username: tempUsername,
+        password: tempPassword,
+      },
+      dispatch
+    )
+
+    // if (!isFetching) {
+    //   // alert("huaaa")
+    //   history.push("/home")
+    // } else {
+    //   alert("error")
+    // }
+    // console.log("ayaaa")
+    // const name = username
+    // const pass = password
+    // console.log(name)
+    // //http://localhost:3001/login/${name}/${pass}
+    // axios.get(`${USER_SERVER}/login/${name}/${pass}`).then((response) => {
+    //   if (response.data.loggedin === true) {
+    //     localStorage.setItem("loggedin", true)
+    //     localStorage.setItem("userData", JSON.stringify(response.data.userData))
+    //     alert(response.data.message)
+    //     history.push("/profile")
+    //     console.log(response)
+    //   } else {
+    //     console.log(response.data.message)
+    //   }
+    // })
   }
   return (
     <>
@@ -36,13 +61,14 @@ function Login() {
               src="https://i.imgur.com/wvLiKam.png"
             />
           </h1>
-          <form class="login-form">
+          <form class="login-form" onSubmit={handleSubmit}>
             <div class="username-info">
               <label for="username">
                 <input
+                  ref={username}
+                  required
                   type="text"
                   placeholder="Phone number, username, or email"
-                  onChange={(e) => setUsername(e.target.value)}
                 />
               </label>
             </div>
@@ -51,14 +77,23 @@ function Login() {
                 <input
                   id="password"
                   type="password"
+                  ref={password}
                   placeholder="Password"
                   required
-                  onChange={(e) => setPassword(e.target.value)}
                 />
               </label>
             </div>
-            <button onClick={verrify} class="login-btn">
-              Log In
+
+            <button class="login-btn">
+              {isFetching ? (
+                <CircularProgress
+                  className="loading"
+                  color="secondary"
+                  size="25px"
+                />
+              ) : (
+                "Sign In"
+              )}
             </button>
 
             <div class="or-divider">
@@ -84,12 +119,9 @@ function Login() {
         </div>
 
         <div class="sign-up-container">
-          <div class="new-user">
-            Don't have an account?{" "}
-            <a class="sign-up-text" href="#">
-              Sign up
-            </a>
-          </div>
+          <Link to="/signup">
+            <div class="new-user">Don't have an account? Sign up</div>
+          </Link>
         </div>
       </div>
       <div class="cta-app">Get the app.</div>

@@ -1,14 +1,15 @@
 import axios from "axios"
 import { USER_SERVER } from "./config"
-export const loginCall = async (userCredential, dispatch) => {
-  dispatch({ type: "LOGIN_START" })
+export const loginCall = async (userCredentials, dispatch) => {
+  console.log(dispatch)
+  //dispatch({ type: "LOGIN_START" })
   try {
-    const res = await axios.post(`${USER_SERVER}/login`, userCredential)
-    console.log(res.data.payload)
-    dispatch({ type: "LOGIN_SUCCESS", payload: res.data.payload })
-  } catch (error) {
-    alert("Login credentials doesn't match")
-    dispatch({ type: "LOGIN_FAILURE", payload: error })
-    console.log(error)
+    const response = await axios.post(`${USER_SERVER}/login`, userCredentials)
+    //alert(response.data)
+    console.log(response)
+    dispatch({ type: "LOGIN_SUCCESS", payload: response.data })
+  } catch (err) {
+    alert(err)
+    //dispatch({ type: "LOGIN_ERROR", payload: err })
   }
 }

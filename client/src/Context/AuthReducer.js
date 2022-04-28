@@ -1,4 +1,4 @@
-const AuthRecducer = (state, action) => {
+const Reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN_START":
       return {
@@ -12,7 +12,7 @@ const AuthRecducer = (state, action) => {
         isFetching: false,
         error: false,
       }
-    case "LOGIN_FAILURE":
+    case "LOGIN_ERROR":
       return {
         user: null,
         isFetching: false,
@@ -24,4 +24,4 @@ const AuthRecducer = (state, action) => {
   }
 }
 
-export default AuthRecducer
+export default Reducer

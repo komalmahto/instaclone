@@ -1,9 +1,12 @@
 import axios from "axios"
 import React, { useState, useEffect } from "react"
+import { Link, useParams } from "react-router-dom"
 import "./Home.css"
 import Modal from "./Modal"
 import { Image } from "cloudinary-react"
 const Profile = () => {
+  let { username } = useParams()
+
   const [post, setPosts] = useState([])
   const [curr, setCurr] = useState()
   const [modal, setModal] = useState(false)
@@ -14,8 +17,9 @@ const Profile = () => {
   }
   useEffect(() => {
     const Fetch = async () => {
-      const id = userData.id
-      const res = await axios.get(`http://localhost:3001/getposts/${id}`)
+      //const username = userData.username
+      //console.log(username)
+      const res = await axios.get(`http://localhost:3001/getposts/${username}`)
       setPosts(res.data)
       console.log(res.data)
     }

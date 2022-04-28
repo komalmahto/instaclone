@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined"
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined"
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
@@ -9,8 +9,14 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import Dropzone from "react-dropzone"
 import { Image } from "cloudinary-react"
 import axios from "axios"
+import { AuthContext } from "../Context/AuthContext"
 import { USER_SERVER } from "../config"
 function Header() {
+  const { user } = useContext(AuthContext)
+  const id = user?.userData[0].id
+  console.log(user?.userData[0])
+
+  // console.log(userData[0])
   const [photo, setPhoto] = useState("")
 
   const onDrop = async (files) => {
@@ -29,20 +35,16 @@ function Header() {
       formData
     )
     console.log(response)
-    if (response?.data?.secure_url) {
-      const loggedin = localStorage.getItem("loggedin")
-      var userData = JSON.parse(localStorage.getItem("userData"))
-      console.log(userData[0])
-      axios
-        .post(`${USER_SERVER}/post`, {
-          img_url: response.data.secure_url,
-          user_id: userData[0].id,
-          username: userData[0].username,
-        })
-        .then((response) => {
-          console.log(response)
-        })
-    }
+
+    axios
+      .post(`${USER_SERVER}/post`, {
+        img_url: response.data.secure_url,
+        user_id: userData[0].id,
+        username: userData[0].username,
+      })
+      .then((response) => {
+        console.log(response)
+      })
   }
 
   return (
@@ -112,12 +114,12 @@ function Header() {
                 </a>
               </li>
               <li class="nav-item px-1">
-                <a class="nav-link" href="/profile">
+                {/* <a class="nav-link" href={`/profile/${userData[0].username}`}>
                   <PersonOutlineOutlinedIcon
                     fontSize="large"
                     style={{ color: "black" }}
                   />
-                </a>
+                </a> */}
               </li>
 
               {/* <li class="nav-item px-1">

@@ -3,6 +3,7 @@ import "./Login.css"
 import { USER_SERVER } from "../config"
 import axios from "axios"
 function Signup() {
+  console.log("gggggg")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const register = () => {
