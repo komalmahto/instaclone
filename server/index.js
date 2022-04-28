@@ -11,22 +11,6 @@ const db = mysql.createConnection({
   database: "ig_clone",
   insecureAuth: true,
 })
-app.post("/signup", (req, res) => {
-  const username = req.body.username
-  const password = req.body.password
-  console.log(username, password)
-  db.query(
-    "INSERT INTO users (username,password) values(?,?)",
-    [username, password],
-    (err, result) => {
-      if (err) {
-        console.log(err)
-      } else {
-        res.send(result)
-      }
-    }
-  )
-})
 
 app.post("/login", (req, res) => {
   const username = req.body.username

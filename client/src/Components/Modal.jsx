@@ -4,15 +4,20 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined"
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined"
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined"
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined"
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined"
 import axios from "axios"
 import Picker from "emoji-picker-react"
 function Modal(props) {
   const [comment, setComment] = useState("")
   const [showPicker, setshowPicker] = useState(false)
+  const [liked, setLiked] = useState(false)
   var userData = JSON.parse(localStorage.getItem("userData"))
   let modelStyle = {
     display: "block",
     backgroundColor: "rgba(0,0,0,0.8)",
+  }
+  const click = async (photoid) => {
+    setLiked(true)
   }
   const addComment = async (photoid) => {
     console.log(comment)
@@ -152,10 +157,25 @@ function Modal(props) {
                       }}
                     >
                       <div>
-                        <FavoriteBorderOutlinedIcon
-                          fontSize="large"
-                          style={{ color: "black", marginRight: "10px" }}
-                        />
+                        {liked === false ? (
+                          <FavoriteBorderOutlinedIcon
+                            style={{
+                              margin: "10px 10px 2px 10px",
+                              fontSize: "30px",
+                            }}
+                            onClick={() => {
+                              click()
+                            }}
+                          />
+                        ) : (
+                          <FavoriteOutlinedIcon
+                            style={{
+                              margin: "10px 10px 2px 10px",
+                              fontSize: "30px",
+                              color: "rgb(237, 73, 86)",
+                            }}
+                          />
+                        )}
                         <ShareOutlinedIcon
                           fontSize="large"
                           style={{ color: "black" }}
