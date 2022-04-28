@@ -7,6 +7,7 @@ import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined"
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined"
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import Dropzone from "react-dropzone"
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined"
 import { Image } from "cloudinary-react"
 import axios from "axios"
 import { useNavigate } from "react-router"
@@ -20,7 +21,7 @@ function Header() {
   console.log(user?.userData[0])
 
   const [photo, setPhoto] = useState("")
-
+  const [searchUser, setsearchUser] = useState("")
   const onDrop = async (files) => {
     setPhoto(files[0])
     console.log(files)
@@ -48,6 +49,12 @@ function Header() {
         console.log(response)
       })
   }
+  const search = () => {
+    console.log(searchUser)
+    axios.get(`${USER_SERVER}/profile/${searchUser}`).then((response) => {
+      console.log(response)
+    })
+  }
   const handleLogOut = () => {
     localStorage.removeItem("user")
     navigate("/login")
@@ -73,7 +80,11 @@ function Header() {
                 type="search"
                 placeholder="Search"
                 ariaLabel="Search"
+                onChange={(e) => {
+                  setsearchUser(e.target.value)
+                }}
               />
+              <SearchOutlinedIcon onClick={search} />
             </form>
 
             <ul class="navbar-nav list-group-horizontal">

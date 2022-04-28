@@ -2,6 +2,8 @@ import axios from "axios"
 import React, { useState, useEffect, useContext } from "react"
 import { Link, useParams } from "react-router-dom"
 import "./Home.css"
+import FollowerModal from "./FollowerModal"
+import { USER_SERVER } from "../config"
 import { AuthContext } from "../Context/AuthContext"
 import Modal from "./Modal"
 import { Image } from "cloudinary-react"
@@ -13,11 +15,21 @@ const Profile = () => {
   console.log(username)
   const [post, setPosts] = useState([])
   const [curr, setCurr] = useState()
+  const [foll, setFoll] = useState(false)
+  const [folling, setFolling] = useState(false)
   const [modal, setModal] = useState(false)
+
   //var userData = JSON.parse(localStorage.getItem("userData"))[0]
   const click = (key) => {
     setCurr(key)
     setModal(true)
+  }
+  const showFollowings = () => {
+    setFolling(true)
+  }
+  const showFollower = () => {
+    console.log("ss")
+    setFoll(true)
   }
   useEffect(() => {
     const Fetch = async () => {
@@ -29,42 +41,80 @@ const Profile = () => {
     }
     Fetch()
   }, [])
+  const addFollower = async () => {
+    console.log("click")
+    const response = await axios.post(`${USER_SERVER}/follow`, {
+      follower: id,
+      followee: post.photos[0].user_id,
+      follower_username: username,
+      followee_username: userName,
+    })
+    console.log(response)
+  }
 
   return (
     <div class="">
       <div className="container">
         <section>
-          <div class="row text-center align-items-center p-2 px-4">
-            <div class="col-3">
+          <div
+            style={{ display: "flex" }}
+            class="text-center align-items-center p-2 px-4"
+          >
+            <div class="">
               <img
                 src="https://loremflickr.com/200/200/dogs?random=0"
                 class="img-fluid rounded-circle"
               />
             </div>
-            <div class="col-3 border fw-bold">
-              192
-              <br />
-              Posts
-            </div>
-            <div class="col-3 border fw-bold">
-              1000
-              <br />
-              Followers
-            </div>
-            <div class="col-3 border fw-bold">
-              700
-              <br />
-              Following
-            </div>
-          </div>
 
-          <div class="row justify-content-center p-3">
-            <div class="col-10">
-              <strong>{userName}</strong>
-              <br />
-              Colorado
-              <br />
-              Who Let The Dogs out ??!
+            <div class="justify-content-center p-3">
+              <div class="col-10">
+                <strong>{userName}</strong>
+                <button onClick={addFollower}>Follow</button>
+                <br />
+                Colorado
+                <br />
+                Who Let The Dogs out ??!
+              </div>
+              <div class="row">
+                <div class="col-3 border fw-bold">
+                  {post?.photos?.length}
+                  <br />
+                  Posts
+                </div>
+                <div
+                  onClick={() => showFollower()}
+                  class="col-3 border fw-bold"
+                >
+                  {post?.followers?.length}
+                  <br />
+                  Followers
+                </div>
+                {foll === true ? (
+                  <FollowerModal
+                    follower={post?.followers}
+                    hide={() => setFoll(false)}
+                  />
+                ) : (
+                  ""
+                )}
+                <div
+                  onClick={() => showFollower()}
+                  class="col-3 border fw-bold"
+                >
+                  {post?.followings?.length}
+                  <br />
+                  Followings
+                </div>
+                {folling === true ? (
+                  <FollowerModal
+                    follower={post?.followings}
+                    hide={() => setFolling(false)}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
           </div>
 

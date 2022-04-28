@@ -90,15 +90,19 @@ app.post("/post", (req, res) => {
   )
 })
 let comments = []
+let followers = []
+let followings = []
 app.get("/getposts/:username", (req, res) => {
   const username = req.params.username
   comments = []
+  followers = []
+  followings = []
   console.log("yaa")
   db.query("select * from photos where username=?", username, (err, result) => {
     if (err) {
       console.log(err)
     } else {
-      console.log(result)
+      //console.log(result)
 
       for (let i = 0; i < result.length; i++) {
         db.query(
@@ -110,10 +114,29 @@ app.get("/getposts/:username", (req, res) => {
           }
         )
       }
-
+      db.query(
+        "select * from follows where followee_username=?",
+        [username],
+        (err, result2) => {
+          console.log(result2)
+          followers.push(result2)
+          if (err) console.log(err)
+        }
+      )
+      db.query(
+        "select * from follows where follower_username=?",
+        [username],
+        (err, result3) => {
+          //console.log(result3)
+          followings.push(result3)
+          if (err) console.log(err)
+        }
+      )
       res.json({
         photos: result,
         comments: comments,
+        followers: followers[0],
+        followings: followings[0],
       })
     }
   })
@@ -132,10 +155,11 @@ app.get("/getpost/:id/:photoid", (req, res) => {
     }
   )
 })
-var arr = []
-var finalResult = []
+let arr = []
+let finalResult = []
 
 app.get("/getposts/home/:id", (req, res) => {
+  finalResult = []
   const id = req.params.id
   //console.log("aya")
   console.log(finalResult.length)
@@ -257,6 +281,22 @@ app.post("/likes", (req, res) => {
       )
       // if (err) console.log(err)
       // else res.send("values inserted")
+    }
+  )
+})
+app.post("/follow", (req, res) => {
+  console.log(req.body)
+  db.query(
+    "INSERT INTO follows (follower_id,followee_id,follower_username,followee_username) values(?,?,?,?)",
+    [
+      req.body.follower,
+      req.body.followee,
+      req.body.follower_username,
+      req.body.followee_username,
+    ],
+    (err, result) => {
+      console.log(result)
+      if (err) console.error(err)
     }
   )
 })
