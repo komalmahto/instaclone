@@ -9,7 +9,7 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined"
 import axios from "axios"
 import Picker from "emoji-picker-react"
 function Modal(props) {
-  console.log(props)
+  console.log(props.photoid)
   const { user } = useContext(AuthContext)
   const id = user?.userData[0].id
   const username = user?.userData[0].username
@@ -23,7 +23,20 @@ function Modal(props) {
   }
   const click = async (photoid) => {
     setLiked(true)
+
+    await axios
+      .post("http://localhost:3001/likes", {
+        id: id,
+        photoid: photoid,
+      })
+      .then((response) => {
+        console.log(response.data.count)
+      })
+    console.log("click")
+    //navigate("/home")
+    window.location.reload(false)
   }
+
   const addComment = async (photoid) => {
     console.log(photoid)
     await axios
@@ -169,7 +182,7 @@ function Modal(props) {
                               fontSize: "30px",
                             }}
                             onClick={() => {
-                              click()
+                              click(props.photoid)
                             }}
                           />
                         ) : (
@@ -224,7 +237,7 @@ function Modal(props) {
                       <SendOutlinedIcon
                         //style={{ flex: "0.1" }}
                         onClick={() => {
-                          addComment(1)
+                          addComment(props.photoid)
                         }}
                       />
                     </div>

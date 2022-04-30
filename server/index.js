@@ -73,57 +73,139 @@ app.post("/post", (req, res) => {
     }
   )
 })
-let comments = []
-let followers = []
-let followings = []
-app.get("/getposts/:username", (req, res) => {
-  const username = req.params.username
-  comments = []
-  followers = []
-  followings = []
-  //console.log("yaa")
-  db.query("select * from photos where username=?", username, (err, result) => {
-    if (err) {
-      console.log(err)
-    } else {
-      //console.log(result)
 
-      for (let i = 0; i < result.length; i++) {
-        db.query(
-          "select * from comments where photo_id=?",
-          result[i].id,
-          (err, result1) => {
-            //console.log(result1)
-            comments.push(result1)
-          }
-        )
+getposts = (username) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      "select * from photos where username=?",
+      username,
+      (err, result) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(result)
       }
-      db.query(
-        "select * from follows where followee_username=?",
-        [username],
-        (err, result2) => {
-          //(result2)
-          followers.push(result2)
-          if (err) console.log(err)
-        }
-      )
-      db.query(
-        "select * from follows where follower_username=?",
-        [username],
-        (err, result3) => {
-          //console.log(result3)
-          followings.push(result3)
-          if (err) console.log(err)
-        }
-      )
-      res.json({
-        photos: result,
-        comments: comments,
-        followers: followers[0],
-        followings: followings[0],
-      })
-    }
+    )
   })
+}
+comments = (photosData, i) => {
+  //console.log(photosData[0])
+  return new Promise((resolve, reject) => {
+    db.query(
+      "select * from comments where photo_id=?",
+      photosData[i].id,
+      (err, result) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(result)
+      }
+    )
+  })
+}
+followee_username = (username) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      "select * from follows where followee_username=?",
+      username,
+      (err, result) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(result)
+      }
+    )
+  })
+}
+follower_username = (username) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      "select * from follows where follower_username=?",
+      username,
+      (err, result) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(result)
+      }
+    )
+  })
+}
+app.get("/getposts/:username", async (req, res) => {
+  const username = req.params.username
+  const photosData = []
+  const commentsData = []
+  const followerData = []
+  const followingsData = []
+  try {
+    const result1 = await getposts(username)
+    //console.log(result1)
+    photosData.push(...result1)
+    for (let i = 0; i < photosData.length; i++) {
+      const result2 = await comments(photosData, i)
+      commentsData.push(result2)
+      //console.log(result2)
+    }
+    const result3 = await followee_username(username)
+    followerData.push(...result3)
+    //console.log(result3)
+    const result4 = await follower_username(username)
+    followingsData.push(...result4)
+    res.json({
+      photos: photosData,
+      comments: commentsData,
+      followers: followerData,
+      followings: followingsData,
+    })
+  } catch (err) {
+    console.log(err)
+  }
+  // comments = []
+  // followers = []
+  // followings = []
+  // //console.log("yaa")
+  // db.query("select * from photos where username=?", username, (err, result) => {
+  //   if (err) {
+  //     console.log(err)
+  //   } else {
+  //     //console.log(result)
+
+  //     for (let i = 0; i < result.length; i++) {
+  //       db.query(
+  //         "select * from comments where photo_id=?",
+  //         result[i].id,
+  //         (err, result1) => {
+  //           //console.log(result1)
+  //           comments.push(result1)
+  //         }
+  //       )
+  //     }
+  //     db.query(
+  //       "select * from follows where followee_username=?",
+  //       [username],
+  //       (err, result2) => {
+  //         //(result2)
+  //         followers.push(result2)
+  //         if (err) console.log(err)
+  //       }
+  //     )
+  //     db.query(
+  //       "select * from follows where follower_username=?",
+  //       [username],
+  //       (err, result3) => {
+  //         //console.log(result3)
+  //         followings.push(result3)
+  //         if (err) console.log(err)
+  //       }
+  //     )
+  //     res.json({
+  //       photos: result,
+  //       comments: comments,
+  //       followers: followers[0],
+  //       followings: followings[0],
+  //     })
+  //   }
+  // })
 })
 app.get("/getpost/:id/:photoid", (req, res) => {
   const id = req.params.id
@@ -144,7 +226,7 @@ func1 = () => {
   return new Promise((resolve, reject) => {
     db.query("select id, image_url,username from photos ", (err, result) => {
       if (err) {
-        return reject(error)
+        return reject(err)
       }
       return resolve(result)
     })
@@ -183,7 +265,7 @@ func3 = (arr, i) => {
       arr[i].id,
       (err, result) => {
         if (err) {
-          return reject(error)
+          return reject(err)
         } else {
           const comments = []
 
@@ -204,7 +286,7 @@ func4 = (arr, i, id) => {
       [arr[i].id, id],
       (err, result) => {
         if (err) {
-          return reject(error)
+          return reject(err)
         } else {
           var x = new Boolean(false)
           if (result.length > 0) {
@@ -220,8 +302,11 @@ func4 = (arr, i, id) => {
 }
 app.get("/getposts/home/:id", async (req, res) => {
   const arr = []
+  //array
   const f1 = []
+  // comments
   const f2 = []
+  // likes
   const f3 = []
   const finalResult = []
   const id = req.params.id
@@ -232,19 +317,16 @@ app.get("/getposts/home/:id", async (req, res) => {
     for (let i = 0; i < arr.length; i++) {
       const result2 = await func2(arr, i)
       f1.push(result2)
-      //console.log(f1)
     }
 
-    //console.log(f1)
     for (let i = 0; i < arr.length; i++) {
       const result3 = await func3(arr, i)
-      //console.log(result3)
+
       f2.push(result3)
     }
     for (let i = 0; i < arr.length; i++) {
       const result4 = await func4(arr, i, id)
       f3.push(result4)
-      //console.log(result4)
     }
 
     for (let i = 0; i < arr.length; i++) {
@@ -339,7 +421,7 @@ app.post("/follow", (req, res) => {
     ],
     (err, result) => {
       console.log(result)
-      if (err) console.error(err)
+      if (err) console.log(err)
     }
   )
 })

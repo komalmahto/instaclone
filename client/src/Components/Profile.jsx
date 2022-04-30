@@ -150,7 +150,7 @@ const Profile = () => {
 
           <div class="row text-center">
             {post.photos?.map((item, key) => {
-              console.log(post.comments[key])
+              console.log(post)
               return (
                 <>
                   {/* <button onClick={setModal(true)}> */}
@@ -166,6 +166,7 @@ const Profile = () => {
 
                   {modal === true ? (
                     <Modal
+                      photoid={post.photos[curr].id}
                       photo={post.photos[curr].image_url}
                       user={item.username}
                       hide={() => setModal(false)}
