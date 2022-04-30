@@ -9,21 +9,17 @@ import axios from "axios"
 import { Grid } from "@material-ui/core"
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined"
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined"
-import { useNavigate } from "react-router"
 
 import { AuthContext } from "../Context/AuthContext"
 function Home() {
-  //const navigate = useNavigate()
   const { user } = useContext(AuthContext)
   const id = user?.userData[0].id
+  const username = user?.userData[0].username
   console.log(user?.userData[0])
 
-  const [nm, setnm] = useState([])
-  const [preLiked, setPreliked] = useState(null)
-  const [liked, setLiked] = useState(false)
   const [posts, setPosts] = useState([])
   const [comment, setComment] = useState("")
-  var userData = JSON.parse(localStorage.getItem("userData"))
+
   useEffect(() => {
     const Fetch = async () => {
       const res = await axios.get(`http://localhost:3001/getposts/home/${id}`)
@@ -47,11 +43,11 @@ function Home() {
   //   })
   // }, [userData, posts])
   const click = async (photoid) => {
-    console.log(photoid, userData[0].id)
-    setLiked(true)
+    //console.log(photoid, userData[0].id)
+
     await axios
       .post("http://localhost:3001/likes", {
-        id: userData[0].id,
+        id: id,
         photoid: photoid,
       })
       .then((response) => {
@@ -62,13 +58,13 @@ function Home() {
     window.location.reload(false)
   }
   const addComment = async (photoid) => {
-    console.log(comment)
+    //console.log(userData[0].id, photoid)
     await axios
       .post("http://localhost:3001/comment", {
-        id: userData[0].id,
+        id: id,
         photoid: photoid,
         comment: comment,
-        username: userData[0].username,
+        username: username,
       })
       .then((response) => {
         setComment(null)
@@ -84,14 +80,13 @@ function Home() {
             <Grid item xs={12} md={12} lg={12}>
               <div class="card" key={key}>
                 <div class="profile">
-                  <a href={`/profile/${item.postMadeBy}`}>{item.postMadeBy}</a>
-
-                  <h5>Somewhere</h5>
-
                   <img
                     src={`https://ui-avatars.com/api/?name=${item.postMadeBy}`}
                     alt="pic"
                   />
+                  <a href={`/profile/${item.postMadeBy}`}>{item.postMadeBy}</a>
+
+                  <h5>Somewhere</h5>
 
                   <i
                     class="bi bi-three-dots-vertical fa-2x"
@@ -141,25 +136,30 @@ function Home() {
                   </div>
                 </div>
                 <div class="about-post">
-                  <p>
-                    <img alt="pic" src="https://picsum.photos/id/26/20" /> Liked
-                    by
-                    {item.likedUsers.map((x, y) => {
-                      return (
-                        <span>
-                          {" "}
-                          {x} {","}
-                        </span>
-                      )
-                    })}
-                  </p>
+                  <b>
+                    <p>
+                      <img alt="pic" src="https://picsum.photos/id/26/20" />{" "}
+                      Liked by
+                      {item.likedUsers.map((x, y) => {
+                        return (
+                          <span style={{ fontSize: "10px", color: "#ff1493" }}>
+                            {" "}
+                            {x} {","}
+                          </span>
+                        )
+                      })}
+                    </p>
+                  </b>
                   {item.comments.map((item, key) => {
                     return (
                       <h4 class="name_caption">
-                        <a href={`/profile/${item.username}`}>
+                        <a
+                          style={{ color: "black", textDecoration: "none" }}
+                          href={`/profile/${item.username}`}
+                        >
                           {item.username}
                         </a>
-
+                        {" - "}
                         <span id="caption">{item.comment_text}</span>
                       </h4>
                     )

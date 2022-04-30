@@ -1,4 +1,5 @@
-import React, { Component, useState } from "react"
+import React, { Component, useState, useContext } from "react"
+import { AuthContext } from "../Context/AuthContext"
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined"
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined"
@@ -8,6 +9,10 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined"
 import axios from "axios"
 import Picker from "emoji-picker-react"
 function Modal(props) {
+  console.log(props)
+  const { user } = useContext(AuthContext)
+  const id = user?.userData[0].id
+  const username = user?.userData[0].username
   const [comment, setComment] = useState("")
   const [showPicker, setshowPicker] = useState(false)
   const [liked, setLiked] = useState(false)
@@ -20,13 +25,13 @@ function Modal(props) {
     setLiked(true)
   }
   const addComment = async (photoid) => {
-    console.log(comment)
+    console.log(photoid)
     await axios
       .post("http://localhost:3001/comment", {
-        id: userData[0].id,
+        id: id,
         photoid: photoid,
         comment: comment,
-        username: userData[0].username,
+        username: username,
       })
       .then((response) => {
         setComment(null)
@@ -219,7 +224,7 @@ function Modal(props) {
                       <SendOutlinedIcon
                         //style={{ flex: "0.1" }}
                         onClick={() => {
-                          addComment(props.comment[0].photo_id)
+                          addComment(1)
                         }}
                       />
                     </div>

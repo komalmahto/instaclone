@@ -15,9 +15,9 @@ const db = mysql.createConnection({
 app.post("/login", (req, res) => {
   const username = req.body.username
   const password = req.body.password
-  console.log(username, password)
+  //console.log(username, password)
   db.query("select * from users where username=?", username, (err, result) => {
-    console.log(result)
+    //console.log(result)
     if (err) {
       console.log(err)
     } else {
@@ -48,7 +48,7 @@ app.post("/signup", (req, res) => {
   console.log("aya")
   const username = req.body.username
   const password = req.body.password
-  console.log(username + password)
+  //console.log(username + password)
   db.query(
     "INSERT INTO users(username,password) VALUES(?,?)",
     [username, password],
@@ -59,11 +59,11 @@ app.post("/signup", (req, res) => {
   )
 })
 app.post("/post", (req, res) => {
-  console.log("aya")
+  //console.log("aya")
   const image_url = req.body.img_url
   const user_id = req.body.user_id
   const username = req.body.username
-  console.log(req.body)
+  //console.log(req.body)
   db.query(
     "INSERT INTO photos(image_url,user_id,username) VALUES(?,?,?)",
     [image_url, user_id, username],
@@ -81,7 +81,7 @@ app.get("/getposts/:username", (req, res) => {
   comments = []
   followers = []
   followings = []
-  console.log("yaa")
+  //console.log("yaa")
   db.query("select * from photos where username=?", username, (err, result) => {
     if (err) {
       console.log(err)
@@ -102,7 +102,7 @@ app.get("/getposts/:username", (req, res) => {
         "select * from follows where followee_username=?",
         [username],
         (err, result2) => {
-          console.log(result2)
+          //(result2)
           followers.push(result2)
           if (err) console.log(err)
         }
@@ -139,75 +139,134 @@ app.get("/getpost/:id/:photoid", (req, res) => {
     }
   )
 })
-let arr = []
-let finalResult = []
 
-app.get("/getposts/home/:id", (req, res) => {
-  //finalResult = []
-  const id = req.params.id
-  //console.log("aya")
-  console.log(finalResult.length)
-  db.query("select id, image_url,username from photos ", (err, result) => {
-    arr = [result]
-    //console.log("array", arr)
-    for (let i = 0; i < arr[0].length; i++) {
-      db.query(
-        "select username from users where id in (select user_id from likes where photo_id=?)",
-        arr[0][i].id,
-        (err, result2) => {
+func1 = () => {
+  return new Promise((resolve, reject) => {
+    db.query("select id, image_url,username from photos ", (err, result) => {
+      if (err) {
+        return reject(error)
+      }
+      return resolve(result)
+    })
+  })
+}
+func2 = (arr, i) => {
+  //console.log(i, arr[i])
+  return new Promise((resolve, reject) => {
+    db.query(
+      "select username from users where id in (select user_id from likes where photo_id=?)",
+      arr[i].id,
+      (err, result) => {
+        if (err) {
+          return reject(err)
+        } else {
           var obj = {}
           var usernames = []
-          result2.map(({ username }) => {
+          result.map(({ username }) => {
             usernames.push(username)
           })
+          obj["id"] = arr[i].id
 
-          //to find the creater of post
-          obj["id"] = arr[0][i].id
-
-          obj["image_url"] = arr[0][i].image_url
+          obj["image_url"] = arr[i].image_url
           obj["likedUsers"] = usernames
-          obj["postMadeBy"] = arr[0][i].username
-          db.query(
-            "select comment_text,username from comments where photo_id=?",
-            arr[0][i].id,
-            (err, result3) => {
-              const comments = []
-              result3.map((item, key) => {
-                comments.push(item)
-              })
-              obj["comments"] = comments
-
-              db.query(
-                "select * from likes where photo_id=? and user_id=?",
-                [arr[0][i].id, id],
-                (err, result4) => {
-                  if (result4.length > 0) {
-                    obj["liked"] = true
-                  } else {
-                    obj["liked"] = false
-                  }
-                }
-              )
-              finalResult.push(obj)
-              //console.log(obj)
-            }
-          )
-          //console.log(obj)
+          obj["postMadeBy"] = arr[i].username
+          return resolve(obj)
         }
-      )
-    }
-    //console.log(arr[0][1])
-    //console.log(finalResult)
-    res.json(finalResult)
-    //finalResult.length = 0
-    //arr = []
-    // finalResult = []
+      }
+    )
   })
+}
+func3 = (arr, i) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      "select comment_text,username from comments where photo_id=? ",
+      arr[i].id,
+      (err, result) => {
+        if (err) {
+          return reject(error)
+        } else {
+          const comments = []
+
+          result.map(async (item) => {
+            comments.push(item)
+          })
+
+          return resolve(comments)
+        }
+      }
+    )
+  })
+}
+func4 = (arr, i, id) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      "select * from likes where photo_id=? and user_id=?",
+      [arr[i].id, id],
+      (err, result) => {
+        if (err) {
+          return reject(error)
+        } else {
+          var x = new Boolean(false)
+          if (result.length > 0) {
+            x = true
+          } else {
+            x = false
+          }
+          return resolve(x)
+        }
+      }
+    )
+  })
+}
+app.get("/getposts/home/:id", async (req, res) => {
+  const arr = []
+  const f1 = []
+  const f2 = []
+  const f3 = []
+  const finalResult = []
+  const id = req.params.id
+  try {
+    const result1 = await func1()
+    arr.push(...result1)
+
+    for (let i = 0; i < arr.length; i++) {
+      const result2 = await func2(arr, i)
+      f1.push(result2)
+      //console.log(f1)
+    }
+
+    //console.log(f1)
+    for (let i = 0; i < arr.length; i++) {
+      const result3 = await func3(arr, i)
+      //console.log(result3)
+      f2.push(result3)
+    }
+    for (let i = 0; i < arr.length; i++) {
+      const result4 = await func4(arr, i, id)
+      f3.push(result4)
+      //console.log(result4)
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+      var obj = {}
+      obj["id"] = f1[i].id
+      obj["image_url"] = f1[i].image_url
+      obj["likedUsers"] = f1[i].likedUsers
+      obj["postMadeBy"] = f1[i].postMadeBy
+      obj["comments"] = f2[i]
+      obj["liked"] = f3[i]
+      finalResult.push(obj)
+    }
+    res.json(finalResult)
+  } catch (err) {
+    console.log(err)
+  }
 })
+
 app.get("/preliked/:pid/:uid", (req, res) => {
   const pid = req.params.pid
   const uid = req.params.uid
-  console.log("hit")
+  //("hit")
   db.query(
     "select * from likes where photo_id=? and user_id=?",
     [pid, uid],
@@ -233,12 +292,12 @@ app.post("/comment", (req, res) => {
   const userid = req.body.id
   const photoid = req.body.photoid
   const username = req.body.username
-  console.log(comment)
+  //(comment)
   db.query(
     "INSERT INTO comments(comment_text,photo_id,user_id,username) VALUES(?,?,?,?)",
     [comment, photoid, userid, username],
     (err, result) => {
-      console.log(result)
+      //(result)
       if (err) console.log(err)
       else res.send("values inserted")
     }
@@ -256,7 +315,7 @@ app.post("/likes", (req, res) => {
         "select count(*) as count from likes where photo_id=?",
         req.body.photoid,
         (err, result) => {
-          console.log(result)
+          //(result)
           res.send({
             count: result[0].count,
             users: ["komal", "rohan"],
@@ -269,7 +328,7 @@ app.post("/likes", (req, res) => {
   )
 })
 app.post("/follow", (req, res) => {
-  console.log(req.body)
+  //(req.body)
   db.query(
     "INSERT INTO follows (follower_id,followee_id,follower_username,followee_username) values(?,?,?,?)",
     [

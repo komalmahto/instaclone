@@ -86,3 +86,9 @@ Open browser and goto http://localhost:3000/
 ---
 
 <img src="/Screenshorts/profile.png">
+
+#### Home
+
+---
+
+<img src="/Screenshorts/home.png">
