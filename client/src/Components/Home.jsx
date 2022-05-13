@@ -23,9 +23,11 @@ function Home() {
   useEffect(() => {
     const Fetch = async () => {
       const res = await axios.get(`http://localhost:3001/getposts/home/${id}`)
+      const data = res.data
+      data.sort(function (a, b) {
+        return new Date(b.created_at) - new Date(a.created_at)
+      })
       setPosts(res.data)
-
-      console.log(res.data)
     }
     Fetch()
   }, [user, id])

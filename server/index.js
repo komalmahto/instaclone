@@ -224,12 +224,15 @@ app.get("/getpost/:id/:photoid", (req, res) => {
 
 func1 = () => {
   return new Promise((resolve, reject) => {
-    db.query("select id, image_url,username from photos ", (err, result) => {
-      if (err) {
-        return reject(err)
+    db.query(
+      "select id, image_url,username,created_at from photos ",
+      (err, result) => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(result)
       }
-      return resolve(result)
-    })
+    )
   })
 }
 func2 = (arr, i) => {
@@ -337,6 +340,7 @@ app.get("/getposts/home/:id", async (req, res) => {
       obj["postMadeBy"] = f1[i].postMadeBy
       obj["comments"] = f2[i]
       obj["liked"] = f3[i]
+      obj["created_at"] = arr[i].created_at
       finalResult.push(obj)
     }
     res.json(finalResult)
@@ -397,7 +401,7 @@ app.post("/likes", (req, res) => {
         "select count(*) as count from likes where photo_id=?",
         req.body.photoid,
         (err, result) => {
-          //(result)
+          console.log(result)
           res.send({
             count: result[0].count,
             users: ["komal", "rohan"],
