@@ -47,23 +47,6 @@ function App() {
           <Route path="*" element={<h1>Please Login</h1>} />
         </Routes>
       </Router>
-      {/* <button onClick={display}>set</button>
-      <div className="App">
-        <label>x</label>
-        <input
-          type="text"
-          onChange={(e) => {
-            setx(e.target.value)
-          }}
-        ></input>
-        <label>y</label>
-        <input
-          type="text"
-          onChange={(e) => {
-            sety(e.target.value)
-          }}
-        ></input>
-      </div> */}
     </div>
   )
 }
