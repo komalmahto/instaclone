@@ -1,0 +1,41 @@
+- 
+  name: "deployment"
+  hosts: insta_server
+  become: true
+  gather_facts: false
+  vars:
+      git_repo_url: https://github.com/komalmahto/instaclone.git
+      repo_path: ~/instaclone
+      repo_branch: master
+      mysql_root_password: ''
+      
+  tasks: 
+ 
+  - name: Ansible shell module multiple commands
+    shell: 'curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -'
+  - name: Install reqired packages
+    apt: name={{ item }} state=present
+    with_items:
+      - git
+      - curl
+      - wget
+      - nginx
+      - nodejs
+  - name: Clone a private repository
+    git:
+     repo: "{{ git_repo_url }}"
+     dest: "{{ repo_path }}"
+     version: "{{ repo_branch }}"
+     accept_hostkey: yes
+  - name: Install node-modules in  client
+    npm:
+      path: "{{ repo_path }}/client"
+      state: present
+  - name: Install node-modules in  server
+    npm:
+      path: "{{ repo_path}}/server"
+      state: present
+  - name: Build app
+    command: npm run build
+    args:
+      chdir: "{{ repo_path }}/client"
