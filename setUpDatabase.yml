@@ -1,3 +1,4 @@
+# https://medium.com/@kelom.x/ansible-mysql-installation-2513d0f70faf
 - name: setup Mysql
   become: true
   hosts: insta_server

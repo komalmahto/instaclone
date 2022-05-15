@@ -1,12 +1,8 @@
 - hosts: insta_server
   become: true
-  gather_facts: false
-  vars:
-      git_repo_url: https://github.com/komalmahto/instaclone.git
-      repo_path: /home/komalmahto/instaclone
-      repo_branch: master
-      mysql_root_password: ''
-      ansible_python_interpreter: /usr/bin/python3
+  gather_facts: false  
+  vars_files:
+    - ./group_vars.yml
   tasks: 
   - name: Run the equivalent of "apt-get update" as a separate step
     apt:
@@ -21,7 +17,7 @@
       - wget
       - nginx
       - nodejs
-  
+# PM2 is a production process manager for Node.js applications,keep applications alive forever, to reload them without downtime
   - name: Install PM2 globally
     npm:
       name: pm2

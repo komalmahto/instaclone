@@ -1,10 +1,9 @@
+#https://www.digitalocean.com/community/tutorials/how-to-deploy-a-static-html-website-with-ansible-on-ubuntu-20-04-nginx
 ---
 - hosts: insta_server
-  become: true
-  vars:
-    server_name: "{{ ansible_default_ipv4.address }}"
-    document_root: /var/www/html
-    app_root: ./build
+  become: true  
+  vars_files:
+    - ./group_vars.yml
   tasks:
     - name: Update apt cache and install Nginx
       apt:
