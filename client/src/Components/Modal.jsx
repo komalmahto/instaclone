@@ -1,5 +1,6 @@
 import React, { Component, useState, useContext } from "react"
 import { AuthContext } from "../Context/AuthContext"
+import { USER_SERVER } from "../config"
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined"
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined"
@@ -25,7 +26,7 @@ function Modal(props) {
     setLiked(true)
 
     await axios
-      .post("http://localhost:3001/likes", {
+      .post(`${USER_SERVER}/likes`, {
         id: id,
         photoid: photoid,
       })
@@ -40,7 +41,7 @@ function Modal(props) {
   const addComment = async (photoid) => {
     console.log(photoid)
     await axios
-      .post("http://localhost:3001/comment", {
+      .post(`${USER_SERVER}/comment`, {
         id: id,
         photoid: photoid,
         comment: comment,

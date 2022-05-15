@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import "./Home.css"
+import { USER_SERVER } from "../config"
 import { Link } from "react-router-dom"
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined"
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined"
@@ -22,7 +23,7 @@ function Home() {
 
   useEffect(() => {
     const Fetch = async () => {
-      const res = await axios.get(`http://localhost:3001/getposts/home/${id}`)
+      const res = await axios.get(`${USER_SERVER}/getposts/home/${id}`)
       const data = res.data
       data.sort(function (a, b) {
         return new Date(b.created_at) - new Date(a.created_at)

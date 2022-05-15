@@ -12,7 +12,7 @@ const db = mysql.createConnection({
   insecureAuth: true,
 })
 
-app.post("/login", (req, res) => {
+app.post("/api/login", (req, res) => {
   const username = req.body.username
   const password = req.body.password
   //console.log(username, password)
@@ -44,7 +44,7 @@ app.post("/login", (req, res) => {
     }
   })
 })
-app.post("/signup", (req, res) => {
+app.post("/api/signup", (req, res) => {
   console.log("aya")
   const username = req.body.username
   const password = req.body.password
@@ -58,7 +58,7 @@ app.post("/signup", (req, res) => {
     }
   )
 })
-app.post("/post", (req, res) => {
+app.post("/api/post", (req, res) => {
   //console.log("aya")
   const image_url = req.body.img_url
   const user_id = req.body.user_id
@@ -131,7 +131,7 @@ follower_username = (username) => {
     )
   })
 }
-app.get("/getposts/:username", async (req, res) => {
+app.get("/api/getposts/:username", async (req, res) => {
   const username = req.params.username
   const photosData = []
   const commentsData = []
@@ -207,7 +207,7 @@ app.get("/getposts/:username", async (req, res) => {
   //   }
   // })
 })
-app.get("/getpost/:id/:photoid", (req, res) => {
+app.get("/api/getpost/:id/:photoid", (req, res) => {
   const id = req.params.id
   const photoid = req.params.photoid
   //console.log(id, photoid)
@@ -303,7 +303,7 @@ func4 = (arr, i, id) => {
     )
   })
 }
-app.get("/getposts/home/:id", async (req, res) => {
+app.get("/api/getposts/home/:id", async (req, res) => {
   const arr = []
   //array
   const f1 = []
@@ -349,7 +349,7 @@ app.get("/getposts/home/:id", async (req, res) => {
   }
 })
 
-app.get("/preliked/:pid/:uid", (req, res) => {
+app.get("/api/preliked/:pid/:uid", (req, res) => {
   const pid = req.params.pid
   const uid = req.params.uid
   //("hit")
@@ -373,7 +373,7 @@ app.get("/preliked/:pid/:uid", (req, res) => {
     }
   )
 })
-app.post("/comment", (req, res) => {
+app.post("/api/comment", (req, res) => {
   const comment = req.body.comment
   const userid = req.body.id
   const photoid = req.body.photoid
@@ -390,7 +390,7 @@ app.post("/comment", (req, res) => {
   )
 })
 
-app.post("/likes", (req, res) => {
+app.post("/api/likes", (req, res) => {
   //console.log(req.body)
 
   db.query(
@@ -413,7 +413,7 @@ app.post("/likes", (req, res) => {
     }
   )
 })
-app.post("/follow", (req, res) => {
+app.post("/api/follow", (req, res) => {
   //(req.body)
   db.query(
     "INSERT INTO follows (follower_id,followee_id,follower_username,followee_username) values(?,?,?,?)",
@@ -429,7 +429,7 @@ app.post("/follow", (req, res) => {
     }
   )
 })
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
   res.send("running")
 })
 app.listen(3001, () => {
