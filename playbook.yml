@@ -45,6 +45,6 @@
   - name: start pm2 process
     command: 'pm2 start npm --name "insta_clone" -- start'
     args:
-      chdir: "{{ repo_path }}/client"
+      chdir: "{{ repo_path }}/server"
 
 
