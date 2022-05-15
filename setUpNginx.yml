@@ -4,7 +4,7 @@
   vars:
     server_name: "{{ ansible_default_ipv4.address }}"
     document_root: /var/www/html
-    app_root: ../build
+    app_root: ./build
   tasks:
     - name: Update apt cache and install Nginx
       apt:
@@ -18,7 +18,7 @@
         mode: preserve
     - name: Apply Nginx template
       template:
-        src: nginx.conf.j2
+        src: nginx.conf
         dest: /etc/nginx/sites-available/default
       notify: Restart Nginx
 
