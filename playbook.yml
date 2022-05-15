@@ -1,16 +1,16 @@
-- 
-  name: "deployment"
-  hosts: insta_server
+- hosts: insta_server
   become: true
   gather_facts: false
   vars:
       git_repo_url: https://github.com/komalmahto/instaclone.git
-      repo_path: ~/instaclone
+      repo_path: /home/komalmahto/instaclone
       repo_branch: master
       mysql_root_password: ''
-      
+      ansible_python_interpreter: /usr/bin/python3
   tasks: 
- 
+  - name: Run the equivalent of "apt-get update" as a separate step
+    apt:
+     update_cache: yes
   - name: Ansible shell module multiple commands
     shell: 'curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -'
   - name: Install reqired packages
@@ -27,11 +27,11 @@
      dest: "{{ repo_path }}"
      version: "{{ repo_branch }}"
      accept_hostkey: yes
-  - name: Install node-modules in  client
+  - name: Install all node-modules in  client
     npm:
       path: "{{ repo_path }}/client"
       state: present
-  - name: Install node-modules in  server
+  - name: Install all node-modules in  server
     npm:
       path: "{{ repo_path}}/server"
       state: present
