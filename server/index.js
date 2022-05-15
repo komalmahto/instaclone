@@ -429,6 +429,9 @@ app.post("/follow", (req, res) => {
     }
   )
 })
+app.get("/", (req, res) => {
+  res.send("running")
+})
 app.listen(3001, () => {
   console.log("started")
 })
