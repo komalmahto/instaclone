@@ -2,12 +2,14 @@ const express = require("express")
 const mysql = require("mysql")
 const app = express()
 const cors = require("cors")
-app.use(cors())
+app.use(
+  cors({
+    origin: "*",
+    optionsSuccessStatus: 200,
+    method: ["GET", "POST"],
+  })
+)
 app.use(express.json())
-var corsOptions = {
-  origin: "*",
-  optionsSuccessStatus: 200,
-}
 
 const db = mysql.createConnection({
   user: "root",
