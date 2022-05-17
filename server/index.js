@@ -1,6 +1,7 @@
 const express = require("express")
 const mysql = require("mysql")
 const app = express()
+const dotenv = require("dotenv").config()
 const cors = require("cors")
 app.use(
   cors({
@@ -9,7 +10,8 @@ app.use(
     method: ["GET", "POST"],
   })
 )
-app.use(express.json())
+//20.219.107.151/login
+http: app.use(express.json())
 
 const db = mysql.createConnection({
   user: "root",
@@ -439,6 +441,7 @@ app.post("/api/follow", (req, res) => {
 app.get("/api/", (req, res) => {
   res.send("running")
 })
-app.listen(3001, () => {
-  console.log("started")
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+  console.log(`server is running on ${port}`)
 })
