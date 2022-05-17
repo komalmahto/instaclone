@@ -13,7 +13,7 @@ function Signup() {
     e.preventDefault()
     console.log(username + password)
     axios
-      .post(`${USER_SERVER}/signup`, {
+      .post(`http://localhost:3001${USER_SERVER}/signup`, {
         username: username,
         password: password,
       })
