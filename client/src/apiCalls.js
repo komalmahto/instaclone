@@ -4,7 +4,10 @@ export const loginCall = async (userCredentials, dispatch) => {
   console.log(dispatch)
   //dispatch({ type: "LOGIN_START" })
   try {
-    const response = await axios.post(`${USER_SERVER}/login`, userCredentials)
+    const response = await axios.post(
+      `http://localhost:3001${USER_SERVER}/login`,
+      userCredentials
+    )
     //alert(response.data)
     console.log(response)
     dispatch({ type: "LOGIN_SUCCESS", payload: response.data })

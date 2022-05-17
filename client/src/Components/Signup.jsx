@@ -9,7 +9,8 @@ function Signup() {
   console.log("gggggg")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const register = () => {
+  const register = (e) => {
+    e.preventDefault()
     console.log(username + password)
     axios
       .post(`${USER_SERVER}/signup`, {

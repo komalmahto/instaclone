@@ -5,9 +5,7 @@ const dotenv = require("dotenv").config()
 const cors = require("cors")
 app.use(
   cors({
-    origin: "*",
-    optionsSuccessStatus: 200,
-    method: ["GET", "POST"],
+    origin: "http://20.219.107.151",
   })
 )
 //20.219.107.151/login
