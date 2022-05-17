@@ -12,25 +12,12 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useNavigate,
   Navigate,
-  Link,
 } from "react-router-dom"
 function App() {
   const { user } = useContext(AuthContext)
   console.log(user)
-  const [x, setx] = useState()
-  const [y, sety] = useState()
-  const display = () => {
-    axios
-      .post("http://localhost:3001/create", {
-        username: "komalmahto",
-        created_at: "13apr,2022",
-      })
-      .then(() => {
-        console.log("success")
-      })
-  }
+
   return (
     <div>
       <Router>
@@ -44,7 +31,7 @@ function App() {
           <Route exact path="/profile/:username" element={<Profile />} />
           <Route exact path="/:id/:photoid" element={<Photo />} />
           <Route exact path="/home" element={user ? <Home /> : <Login />} />
-          <Route path="*" element={<h1>Please Login</h1>} />
+          {/* <Route path="*" element={<h1>Please Login</h1>} /> */}
         </Routes>
       </Router>
     </div>

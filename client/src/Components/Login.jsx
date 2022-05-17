@@ -26,29 +26,6 @@ function Login() {
       },
       dispatch
     )
-
-    // if (!isFetching) {
-    //   // alert("huaaa")
-    //   history.push("/home")
-    // } else {
-    //   alert("error")
-    // }
-    // console.log("ayaaa")
-    // const name = username
-    // const pass = password
-    // console.log(name)
-    // //http://localhost:3001/login/${name}/${pass}
-    // axios.get(`${USER_SERVER}/login/${name}/${pass}`).then((response) => {
-    //   if (response.data.loggedin === true) {
-    //     localStorage.setItem("loggedin", true)
-    //     localStorage.setItem("userData", JSON.stringify(response.data.userData))
-    //     alert(response.data.message)
-    //     history.push("/profile")
-    //     console.log(response)
-    //   } else {
-    //     console.log(response.data.message)
-    //   }
-    // })
   }
   return (
     <>

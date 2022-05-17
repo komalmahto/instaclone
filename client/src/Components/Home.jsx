@@ -32,24 +32,10 @@ function Home() {
     }
     Fetch()
   }, [user, id])
-  // useEffect(() => {
-  //   const FetchlikeData = async (pid, uid) => {
-  //     const res = await axios.get(
-  //       `http://localhost:3001/preliked/${pid}/${uid}`
-  //     )
-  //     setPreliked((prev) => {
-  //       return [...prev, res.data]
-  //     })
-  //   }
-  //   posts.map((item) => {
-  //     FetchlikeData(item.id, userData[0].id)
-  //   })
-  // }, [userData, posts])
-  const click = async (photoid) => {
-    //console.log(photoid, userData[0].id)
 
+  const click = async (photoid) => {
     await axios
-      .post("http://localhost:3001/likes", {
+      .post(`${USER_SERVER}/likes`, {
         id: id,
         photoid: photoid,
       })
@@ -63,7 +49,7 @@ function Home() {
   const addComment = async (photoid) => {
     //console.log(userData[0].id, photoid)
     await axios
-      .post("http://localhost:3001/comment", {
+      .post(`${USER_SERVER}/comment`, {
         id: id,
         photoid: photoid,
         comment: comment,
