@@ -438,7 +438,7 @@ app.post("/api/follow", (req, res) => {
     }
   )
 })
-app.get("/api/", (req, res) => {
+app.get("/api/check", (req, res) => {
   res.send("running")
 })
 const PORT = process.env.PORT || 3001
