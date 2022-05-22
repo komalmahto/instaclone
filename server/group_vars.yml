@@ -9,3 +9,4 @@ ansible_python_interpreter: /usr/bin/python3
 server_name: "{{ ansible_default_ipv4.address }}"
 document_root: /var/www/html
 app_root: ./build
+data: komal

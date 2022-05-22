@@ -25,6 +25,9 @@
   "dependencies": {
   
     
+  "child-process": "^1.0.2",
+  
+    
   "cors": "^2.8.5",
   
     
@@ -35,6 +38,9 @@
   
     
   "mysql": "^2.18.1",
+  
+    
+  "node-ansible": "^0.5.5",
   
     
   "sql": "^0.78.0"

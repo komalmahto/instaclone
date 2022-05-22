@@ -1,8 +1,12 @@
 const express = require("express")
 const mysql = require("mysql")
 const app = express()
+var Ansible = require("node-ansible")
+var command = new Ansible.Playbook().playbook("playbookk")
+const { spawn } = require("child_process")
 const dotenv = require("dotenv").config()
 const cors = require("cors")
+
 app.use(
   cors({
     origin: "*",
@@ -18,8 +22,58 @@ const db = mysql.createConnection({
   database: "ig_clone",
   insecureAuth: true,
 })
+// const x = async () => {
+//   const execute = new Promise((resolve, reject) => {
+//     try {
+//       const run = spawn("ansible-playbook playbookk.yml", {
+//         shell: true,
+//         maxBuffer: 50000,
+//       })
+//       run.stdout.on("data", (data) => {
+//         resolve(data.toString())
+//       })
+//       run.stderr.on("data", (data) => {
+//         resolve("error", data.toString())
+//       })
+//       run.on("error", (err) => {
+//         throw new Error(err.message)
+//       })
+//     } catch (e) {
+//       reject(e)
+//     }
+//   })
+//   return execute
+// }
+app.get("/api/stop", async (req, res) => {
+  // const ans = await x()
+  console.log("ayax")
+  const x = []
+  const run = spawn("ansible-playbook playbookk.yml", {
+    shell: true,
+    maxBuffer: 50000,
+  })
+  run.stdout.on("data", (data) => {
+    
+    x.push(data.toString())
+    console.log("data", data.toString())
+  })
+  run.stderr.on("data", (data) => {
+    console.log("error", data.toString())
+  })
+  run.on("error", (err) => {
+    console.log(err.message)
+  })
+  console.log(x)
+})
+app.post("/api/login", async (req, res) => {
+  // const ans = await x()
+  // console.log(ans)
 
-app.post("/api/login", (req, res) => {
+  // var promise = command.exec()
+  // promise.then(function (result) {
+  //   console.log(result.output)
+  //   console.log(result.code)
+  // })
   const username = req.body.username
   const password = req.body.password
   //console.log(username, password)
@@ -36,6 +90,7 @@ app.post("/api/login", (req, res) => {
             loggedin: true,
             userData: ff,
             message: "logged in successfully",
+            datas: x,
           })
         } else {
           res.json({

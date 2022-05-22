@@ -20,7 +20,9 @@ function Home() {
 
   const [posts, setPosts] = useState([])
   const [comment, setComment] = useState("")
-
+  const hit = async () => {
+    const res = await axios.get(`${USER_SERVER}/stop`)
+  }
   useEffect(() => {
     const Fetch = async () => {
       const res = await axios.get(`${USER_SERVER}/getposts/home/${id}`)
@@ -63,6 +65,7 @@ function Home() {
   }
   return (
     <Grid container spacing={2}>
+      <button onClick={hit}>stop</button>
       {posts.length > 0 &&
         posts.map((item, key) => {
           return (

@@ -1,6 +1,5 @@
 node_modules
-inventory
-inventory.txt
+
 .env
 dev.js
 
