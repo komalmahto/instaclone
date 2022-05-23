@@ -1,6 +1,7 @@
 const express = require("express")
 const mysql = require("mysql")
 const app = express()
+const fs = require("fs")
 var Ansible = require("node-ansible")
 var command = new Ansible.Playbook().playbook("playbookk")
 const { spawn } = require("child_process")
@@ -52,18 +53,22 @@ app.get("/api/stop", async (req, res) => {
     shell: true,
     maxBuffer: 50000,
   })
-  run.stdout.on("data", (data) => {
-    
-    x.push(data.toString())
-    console.log("data", data.toString())
-  })
+  run.stdout
+    .on("data", (data) => {
+      x.push(data.toString())
+      console.log("data", data.toString())
+    })
+    .then(() => {
+      fs.readFile("./output.json", function (err, data) {
+        res.json(data)
+      })
+    })
   run.stderr.on("data", (data) => {
     console.log("error", data.toString())
   })
   run.on("error", (err) => {
     console.log(err.message)
   })
-  console.log(x)
 })
 app.post("/api/login", async (req, res) => {
   // const ans = await x()

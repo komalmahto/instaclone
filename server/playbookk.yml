@@ -49,7 +49,7 @@
       chdir: "{{ repo_path }}/server"
   - name: add output to json files
     command: echo "${{data}}" > output.json
-    
+ 
   
 
 
