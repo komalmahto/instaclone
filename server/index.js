@@ -52,17 +52,16 @@ app.get("/api/stop", async (req, res) => {
   const run = spawn("ansible-playbook playbookk.yml", {
     shell: true,
     maxBuffer: 50000,
+  }).then(() => {
+    fs.readFile("./output.json", function (err, data) {
+      res.json(data)
+    })
   })
-  run.stdout
-    .on("data", (data) => {
-      x.push(data.toString())
-      console.log("data", data.toString())
-    })
-    .then(() => {
-      fs.readFile("./output.json", function (err, data) {
-        res.json(data)
-      })
-    })
+  run.stdout.on("data", (data) => {
+    x.push(data.toString())
+    console.log("data", data.toString())
+  })
+
   run.stderr.on("data", (data) => {
     console.log("error", data.toString())
   })
